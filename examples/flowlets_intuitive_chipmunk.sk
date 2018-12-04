@@ -1,0 +1,22 @@
+//state_and_packet.pkt_0 = pkt.id
+//state_and_packet.pkt_1 = pkt.sport
+//state_and_packet.pkt_2 = pkt.dport
+//state_and_packet.pkt_3 = pkt.arrival
+//state_and_packet.pkt_4 = pkt.next_hop
+
+//state_and_packet.state_0 = last_time[pkt.id]
+//state_and_packet.state_1 = saved_hop[pkt.id]
+
+|StateAndPacket| program (|StateAndPacket| state_and_packet) {
+
+  state_and_packet.pkt_0 = hash2(state_and_packet.pkt_1,state_and_packet.pkt_2) % 8000;
+  if (state_and_packet.pkt_3 - state_and_packet.state_0 > 5){
+        state_and_packet.pkt_4 = hash3(state_and_packet.pkt_1,state_and_packet.pkt_2,pkt.arrival) % 10;
+	state_and_packet.state_1 = state_and_packet.pkt_4;
+  }else {
+	state_and_packet.pkt_4 = state_and_packet.state_1;
+  }
+  state_and_packet.state_0 = state_and_packet.pkt_3;
+  return state_and_packet;
+}
+

@@ -1,0 +1,26 @@
+//state_and_packet.pkt_0 = pkt.filter1_idx
+//state_and_packet.pkt_1 = pkt.filter2_idx
+//state_and_packet.pkt_2 = pkt.filter3_idx
+//state_and_packet.pkt_3 = pkt.sport
+//state_and_packet.pkt_4 = pkt.dport
+//state_and_packet.pkt_5 = pkt.member
+
+//state_and_packet.state_0 = filter1[pkt.filter1_idx]
+//state_and_packet.state_1 = filter2[pkt.filter2_idx]
+//state_and_packet.state_2 = filter3[pkt.filter3_idx]
+
+|StateAndPacket| program (|StateAndPacket| state_and_packet) {
+
+  state_and_packet.pkt_0 = hash2a(state_and_packet.pkt_3,state_and_packet.pkt_4) % 256;
+  state_and_packet.pkt_1 = hash2b(state_and_packet.pkt_3,state_and_packet.pkt_4) % 256;
+  state_and_packet.pkt_2 = hash2c(state_and_packet.pkt_3,state_and_packet.pkt_4) % 256;
+
+  state_and_packet.pkt_5 = (state_and_packet.state_0 && state_and_packet.state_1 && state_and_packet.state_2);
+
+  state_and_packet.state_0 = 1;
+  state_and_packet.state_1 = 1;
+  state_and_packet.state_2 = 1;
+
+  return state_and_packet;
+}
+

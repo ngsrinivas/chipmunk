@@ -1,0 +1,24 @@
+//state_and_packet.pkt_0 = p.flow_hash
+//state_and_packet.pkt_1 = p.meta_data_dst_tor
+//state_and_packet.pkt_2 = p.cur_time
+//state_and_packet.pkt_3 = p.tmp
+//state_and_packet.pkt_4 = p.meta_data_nxt_hop
+
+//state_and_packet.state_0 = flowlet_time[p.flow_hash]
+//state_and_packet.state_1 = best_hop[p.meta_data_dst_tor]
+//state_and_packet.state_2 = flowlet_hop[p.flow_hash]
+
+|StateAndPacket| program (|StateAndPacket| state_and_packet) {
+  state_and_packet.pkt_0 = state_and_packet.pkt_0；
+  state_and_packet.pkt_1 = state_and_packet.pkt_1;
+
+  if (state_and_packet.pkt_2 - state_and_packet.state_0 > 1000) {
+	state_and_packet.pkt_3 = state_and_packet.state_1;
+	state_and_packet.state_2 = state_and_packet.pkt_3;
+  }
+
+  state_and_packet.pkt_4 = state_and_packet.state_2;
+  state_and_packet.state_0 = state_and_packet.pkt_2;
+
+  return state_and_packet;
+}

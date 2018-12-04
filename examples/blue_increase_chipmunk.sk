@@ -1,0 +1,12 @@
+//state_and_packet.pkt_1=p.now_plus_free
+//state_and_packet.pkt_0=p.now
+//state_and_packet.state_0 = last_update
+//state_and_packet.state_1 = p_mark
+|StateAndPacket| program (|StateAndPacket| state_and_packet) {
+  state_and_packet.pkt_1 = state_and_packet.pkt_0 - 10;
+  if (state_and_packet.pkt_1 > state_and_packet.state_0){
+        state_and_packet.state_1 = state_and_packet.state_1 + 1;
+        state_and_packet.state_0 = state_and_packet.pkt_0;
+  }
+  return state_and_packet;
+}

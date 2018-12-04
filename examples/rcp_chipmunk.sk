@@ -1,0 +1,16 @@
+//state_and_packet.pkt_0 = pkt.size_bytes
+//state_and_packet.pkt_1 = pkt.rtt
+
+//state_and_packet.state_0 = sum_rtt_Tr
+//state_and_packet.state_1 = num_pkts_with_rtt
+
+
+|StateAndPacket| program (|StateAndPacket| state_and_packet) {
+
+  state_and_packet.state_0 + = state_and_packet.pkt_0;
+  if (state_and_packet.pkt_1 < 30) {
+	state_and_packet.state_0 += state_and_packet.pkt_1;
+	state_and_packet.state_1 += 1;
+  }
+  return state_and_packet;
+}

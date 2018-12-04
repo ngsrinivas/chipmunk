@@ -1,0 +1,30 @@
+//state_and_packet.pkt_0 = p.loc
+//state_and_packet.pkt_1 = p.ckey
+//state_and_packet.pkt_2 = p.cval;
+//state_and_packet.pkt_3 = p.terminate;
+//state_and_packet.pkt_4 = p.tmpkey;
+//state_and_packet.pkt_5 = p.tmpval;
+
+//state_and_packet.state_0 = array2key[p.loc]
+//state_and_packet.state_1 = array2val[p.loc]
+
+|StateAndPacket| program (|StateAndPacket| state_and_packet) {
+  state_and_packet.pkt_0 = hash2(state_and_packet.pkt_1,state_and_packet.pkt_1);
+
+  if (state_and_packet.state_0 == state_and_packet.pkt_1){
+        state_and_packet.state_1 = state_and_packet.state_1 + state_and_packet.pkt_2;
+        state_and_packet.pkt_3 = 1;
+  } else if (state_and_packet.state_1 < state_and_packet.pkt_2){
+	state_and_packet.pkt_4 = state_and_packet.state_0;
+	state_and_packet.pkt_5 = state_and_packet.state_1;
+	state_and_packet.state_0 = state_and_packet.pkt_1;
+	state_and_packet.state_1 = state_and_packet.pkt_2;
+	state_and_packet.pkt_1 = state_and_packet.pkt_4;
+	state_and_packet.pkt_2 = state_and_packet.pkt_5;
+
+	state_and_packet.pkt_3 = (state_and_packet.state_1 == 0);
+  }
+
+  return state_and_packet;
+}
+
