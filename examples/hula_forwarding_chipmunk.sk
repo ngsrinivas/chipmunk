@@ -8,6 +8,22 @@
 //state_and_packet.state_1 = best_hop[p.meta_data_dst_tor]
 //state_and_packet.state_2 = flowlet_hop[p.flow_hash]
 
+/*
+void func(struct Packet p) {
+  // TODO: compiler bug
+  p.flow_hash = p.flow_hash;
+  p.meta_data_dst_tor = p.meta_data_dst_tor;
+
+  if (p.cur_time - flowlet_time[p.flow_hash] > FLOWLET_TOUT) {
+    p.tmp = best_hop[p.meta_data_dst_tor];
+    flowlet_hop[p.flow_hash] = p.tmp;
+  }
+
+  p.meta_data_nxt_hop = flowlet_hop[p.flow_hash];
+  flowlet_time[p.flow_hash] = p.cur_time;
+}
+*/
+
 |StateAndPacket| program (|StateAndPacket| state_and_packet) {
   state_and_packet.pkt_0 = state_and_packet.pkt_0；
   state_and_packet.pkt_1 = state_and_packet.pkt_1;

@@ -4,6 +4,22 @@
 //state_and_packet.state_0 = spreader[p.srcip]
 //state_and_packet.state_1 = superspreader[p.srcip]
 
+/*
+void func(struct Packet p) {
+  // TODO: Compiler bug
+  p.srcip = p.srcip;
+
+  if (p.flag == 1) {
+    spreader[p.srcip] = spreader[p.srcip] + 1;
+    if (spreader[p.srcip] == THRESHOLD) {
+      superspreader[p.srcip] = 1;
+    }
+  } else if (p.flag == 2) {
+    spreader[p.srcip] = spreader[p.srcip] - 1;
+  }
+}
+*/
+
 |StateAndPacket| program (|StateAndPacket| state_and_packet) {
   state_and_packet.pkt_0 = state_and_packet.pkt_0 + 1;
 

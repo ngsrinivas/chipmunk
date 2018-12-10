@@ -2,6 +2,16 @@
 //state_and_packet.state_0 = maxseq
 //state_and_packet.state_1 = count
 
+/*
+void func(struct Packet p) {
+  if (p.tcpseq < maxseq) {
+    count = count + 1;
+  } else {
+    maxseq = p.tcpseq;
+  }
+}
+*/
+
 |StateAndPacket| program (|StateAndPacket| state_and_packet) {
   if (state_and_packet.pkt_0 < state_and_packet.state_0){
         state_and_packet.state_1 = state_and_packet.state_1 + 1;

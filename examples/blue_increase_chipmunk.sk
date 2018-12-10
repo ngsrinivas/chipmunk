@@ -2,6 +2,18 @@
 //state_and_packet.pkt_0=p.now
 //state_and_packet.state_0 = last_update
 //state_and_packet.state_1 = p_mark
+
+/*
+void func(struct Packet p) {
+  p.now_plus_free = p.now - FREEZE_TIME;
+// Run when q exceeds QMAX or on packet loss (higher priority?)
+  if (p.now_plus_free > last_update) {
+     p_mark = p_mark + DELTA1;
+     last_update = p.now;
+  }
+}
+*/
+
 |StateAndPacket| program (|StateAndPacket| state_and_packet) {
   state_and_packet.pkt_1 = state_and_packet.pkt_0 - 10;
   if (state_and_packet.pkt_1 > state_and_packet.state_0){

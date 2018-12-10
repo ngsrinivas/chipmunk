@@ -7,6 +7,22 @@
 
 //state_and_packet.state_0 = last_finish[pkt.id]
 
+/*
+void stfq(struct Packet pkt) {
+  pkt.id  = hash2(pkt.sport,
+                  pkt.dport)
+            % NUM_FLOWS;
+
+  if ((last_finish[pkt.id] > TIME_MIN) && (pkt.virtual_time < last_finish[pkt.id])) {
+    pkt.start = last_finish[pkt.id];
+    last_finish[pkt.id] += pkt.length;
+  } else {
+    pkt.start = pkt.virtual_time;
+    last_finish[pkt.id] = pkt.virtual_time + pkt.length;
+  }
+}
+*/
+
 |StateAndPacket| program (|StateAndPacket| state_and_packet) {
   state_and_packet.pkt_0 = hash2(state_and_packet.pkt_1,state_and_packet.pkt_2) % 8000;
   if (state_and_packet.state_0 > 1 && state_and_packet.pkt_3  < state_and_packet.state_0){

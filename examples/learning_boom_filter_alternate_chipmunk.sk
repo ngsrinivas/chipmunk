@@ -1,0 +1,17 @@
+//state_and_packet.state_0 = filter1[hash2a(pkt.sport, pkt.dport)]
+//state_and_packet.state_1 = filter2[hash2b(pkt.sport, pkt.dport)]
+//state_and_packet.state_2 = filter3[hash2c(pkt.sport, pkt.dport)]
+
+//state_and_packet.pkt_0 = pkt.member
+
+|StateAndPacket| program (|StateAndPacket| state_and_packet) {
+
+  if (state_and_packet.state_0 && state_and_packet.state_1 && state_and_packet.state_2) 
+	state_and_packet.pkt_0 = 1;
+  else{
+	state_and_packet.state_0 = 1;
+	state_and_packet.state_1 = 1;
+	state_and_packet.state_2 = 1;
+  }
+  return state_and_packet;
+}

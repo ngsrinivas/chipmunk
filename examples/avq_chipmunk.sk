@@ -8,6 +8,28 @@
 //state_and_packet.state_1 = capacity
 //state_and_packet.state_2 = last_time
 
+/*
+void func(struct Packet p) {
+  // Update virtual queue size
+  vq = ((vq - capacity * (p.time - last_time)) < 0) ? 0 : (vq - capacity * (p.time - last_time));
+
+  // Mark or drop packet in real queue
+  if (vq + p.bytes > BUFFER) {
+    p.mark = 1;
+  } else {
+    vq = vq + p.bytes;
+  }
+
+  // Update virtual capacity
+  p.min = ((capacity + ALPHA * GAMMA * CAPACITY * (p.time -last_time)) < CAPACITY) ? (capacity + ALPHA * GAMMA * CAPACITY * (p.time -last_time)) : CAPACITY;
+  p.max = (p.min - ALPHA * p.bytes < 0) ? 0 : p.min - ALPHA * p.bytes;
+  capacity = p.max;
+
+  last_time = p.time;
+}
+
+*/
+
 |StateAndPacket| program (|StateAndPacket| state_and_packet) {
 
   state_and_packet.state_0 = state_and_packet.state_0 + 1;

@@ -7,6 +7,34 @@
 //state_and_packet.state_0 = last_time[pkt.id]
 //state_and_packet.state_1 = saved_hop[pkt.id]
 
+/*
+void flowlet(struct Packet pkt) {
+  // Compute packet id
+  pkt.id  = hash2(pkt.sport,
+                  pkt.dport)
+            % NUM_FLOWLETS;
+
+  if (pkt.arrival -
+      last_time[pkt.id] >
+      THRESHOLD) {
+    // Load balance if we exceeded IPG
+    pkt.next_hop = hash3(pkt.sport,
+                        pkt.dport,
+                        pkt.arrival)
+                   % NUM_HOPS;
+    // Save load balancing decision
+    saved_hop[pkt.id] = pkt.next_hop;
+  } else {
+    // otherwise, leave it as before
+    pkt.next_hop = saved_hop[pkt.id];
+  }
+
+  // Update last_time always
+  last_time[pkt.id] = pkt.arrival;
+}
+
+*/
+
 |StateAndPacket| program (|StateAndPacket| state_and_packet) {
 
   state_and_packet.pkt_0 = hash2(state_and_packet.pkt_1,state_and_packet.pkt_2) % 8000;

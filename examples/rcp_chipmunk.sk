@@ -4,6 +4,15 @@
 //state_and_packet.state_0 = sum_rtt_Tr
 //state_and_packet.state_1 = num_pkts_with_rtt
 
+/*
+void func(struct Packet pkt) {
+  input_traffic_Bytes += pkt.size_bytes;
+  if (pkt.rtt < MAX_ALLOWABLE_RTT) {
+    sum_rtt_Tr += pkt.rtt;
+    num_pkts_with_rtt += 1;
+  }
+}
+*/
 
 |StateAndPacket| program (|StateAndPacket| state_and_packet) {
 

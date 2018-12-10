@@ -8,6 +8,29 @@
 //state_and_packet.state_0 = last_time[pkt.id]
 //state_and_packet.state_1 = saved_hop[pkt.id]
 
+/*
+void flowlet(struct Packet pkt) {
+  pkt.new_hop = hash3(pkt.sport,
+                      pkt.dport,
+                      pkt.arrival)
+                % NUM_HOPS;
+
+  pkt.id  = hash2(pkt.sport,
+                  pkt.dport)
+            % NUM_FLOWLETS;
+
+  if (pkt.arrival -
+      last_time[pkt.id] >
+      THRESHOLD) {
+    saved_hop[pkt.id] = pkt.new_hop;
+  }
+
+  last_time[pkt.id] = pkt.arrival;
+  pkt.next_hop = saved_hop[pkt.id];
+}
+
+*/
+
 |StateAndPacket| program (|StateAndPacket| state_and_packet) {
 
   state_and_packet.pkt_0 = hash3(state_and_packet.pkt_1,state_and_packet.pkt_2,state_and_packet.pkt_3) % 10;

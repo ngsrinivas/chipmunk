@@ -3,6 +3,20 @@
 //state_and_packet.state_0 = heavy_hitter[p.srcip]
 //state_and_packet.state_1 = hh_counter[p.srcip] 
 
+/*
+void func(struct Packet p) {
+  // TODO: Domino compiler bug
+  p.srcip = p.srcip;
+
+  if (heavy_hitter[p.srcip] == 0) {
+    hh_counter[p.srcip] = hh_counter[p.srcip] + 1;
+    if (hh_counter[p.srcip] == THRESHOLD) {
+      heavy_hitter[p.srcip] = 1;
+    }
+  }
+}
+*/
+
 |StateAndPacket| program (|StateAndPacket| state_and_packet) {
   state_and_packet.pkt_0 = state_and_packet.pkt_0;
 

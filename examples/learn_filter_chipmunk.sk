@@ -9,6 +9,21 @@
 //state_and_packet.state_1 = filter2[pkt.filter2_idx]
 //state_and_packet.state_2 = filter3[pkt.filter3_idx]
 
+/*
+void func(struct Packet pkt) {
+  pkt.filter1_idx = hash2a(pkt.sport, pkt.dport) % NUM_ENTRIES;
+  pkt.filter2_idx = hash2b(pkt.sport, pkt.dport) % NUM_ENTRIES;
+  pkt.filter3_idx = hash2c(pkt.sport, pkt.dport) % NUM_ENTRIES;
+  pkt.member = (filter1[pkt.filter1_idx] &&
+                filter2[pkt.filter2_idx] &&
+                filter3[pkt.filter3_idx]);
+
+  filter1[pkt.filter1_idx] = 1;
+  filter2[pkt.filter2_idx] = 1;
+  filter3[pkt.filter3_idx] = 1;
+}
+*/
+
 |StateAndPacket| program (|StateAndPacket| state_and_packet) {
 
   state_and_packet.pkt_0 = hash2a(state_and_packet.pkt_3,state_and_packet.pkt_4) % 256;

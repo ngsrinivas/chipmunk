@@ -7,6 +7,21 @@
 //state_and_packet.state_0 = best_path_util[p.best_path_util_idx]
 //state_and_packet.state_1 = best_path[p.best_path_idx]
 
+/*
+void func(struct Packet p) {
+  p.best_path_util_idx = p.src < 0 ? 0 : p.src % 256;
+  p.best_path_idx      = p.src < 0 ? 0 : p.src % 256;
+  if (p.util < best_path_util[p.best_path_util_idx]) {
+    best_path_util[p.best_path_util_idx] = p.util;
+    best_path[p.best_path_idx] = p.path_id;
+  } else if (p.path_id == best_path[p.best_path_idx]) {
+    best_path_util[p.best_path_util_idx] = p.util;
+    // TODO: I guess we aren't switching to another path in
+    // case the utilization on the best path went up.
+  }
+}
+*/
+
 |StateAndPacket| program (|StateAndPacket| state_and_packet) {
   state_and_packet.pkt_0 = state_and_packet.pkt_1 < 0 ? 0 : state_and_packet.pkt_1 % 256;
   state_and_packet.pkt_2 = state_and_packet.pkt_1 < 0 ? 0 : state_and_packet.pkt_1 % 256;
