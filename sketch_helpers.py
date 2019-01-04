@@ -37,25 +37,9 @@ int %s(int x, int y) {
 # Generate Sketch code for a simple stateful alu (+,-,*,/)
 # Takes one state and one packet operand (or immediate operand) as inputs
 # Updates the state in place and returns the old value of the state
-def generate_stateful_alu(alu_name):
-  stateful_alu = '''
-int %s(ref int s, int y) {
-  assert(y != 0);
-  int opcode = %s;
-  int old_val = s;
-  if (opcode == 0) {
-    s = s + y;
-  } else if (opcode == 1) {
-    s = s * y;
-  } else if (opcode == 2) {
-    s = s - y;
-  } else {
-    assert(opcode == 3);
-    s = s / y;
-  }
-  return old_val;
-}
-'''%(alu_name, alu_name + "_opcode")
+def generate_stateful_alu(alu_name,atom_file):
+  stateful_alu = open(atom_file).read()
+  stateful_alu = stateful_alu%(alu_name, alu_name + "_opcode")
   generate_hole(alu_name + "_opcode", 2)
   return stateful_alu
 
