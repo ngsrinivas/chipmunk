@@ -48,7 +48,7 @@ for i in range(num_pipeline_stages):
   for j in range(num_alus_per_stage):
     sketch_harness += "" + \
                   sketch_helpers.generate_stateless_alu("stateless_alu_" + str(i) + "_" + str(j)) + "\n" + \
-                  sketch_helpers.generate_stateful_alu("stateful_alu_" + str(i) + "_" + str(j),atom_file) + "\n"
+                  sketch_helpers.generate_stateful_alu("stateful_alu_" + str(i) + "_" + str(j), atom_file) + "\n"
     sketch_helpers.generate_immediate_operand("stateless_immediate_" + str(i) + "_" + str(j) + "_a")
     sketch_helpers.generate_immediate_operand("stateless_immediate_" + str(i) + "_" + str(j) + "_b")
     sketch_helpers.generate_immediate_operand("stateful_immediate_" + str(i) + "_" + str(j))
