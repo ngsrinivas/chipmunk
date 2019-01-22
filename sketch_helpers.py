@@ -3,7 +3,31 @@ from jinja2 import Template
 from pathlib import Path
 import math
 import sys
+import re
 
+def file_to_str(file_name):
+  return Path(file_name).read_text()
+
+# Generate sketch code for stateful ALU by inlining stateful ALU sketch file
+def generate_stateful_alu(alu_name, alu_sketch_file):
+  # Get alu as a string.
+  alu_as_string = Path(alu_sketch_file).read_text()
+
+  # Replace function signature with new function signature.
+  function_name = r"StateResult atom_template"
+  assert(function_name in alu_as_string)
+  alu_as_string = alu_as_string.replace(function_name, "int " + alu_name)
+
+  arg_list = r"(int state_1, int state_2, int pkt_1, int pkt_2, int pkt_3, int pkt_4, int pkt_5) {";
+  assert(arg_list in alu_as_string)
+  alu_as_string = alu_as_string.replace(arg_list, "(ref int state_1, int pkt_1) { int old_state = state_1;\n")
+  # TODO: Fix this. Currently assumes one state variable and one packet variable and no more.
+
+  # Replace return statement with nothing
+  alu_as_string = re.sub(r"StateResult ret = new StateResult\(\);\n  ret\.result_state_1 = state_1;\n  ret\.result_state_2 = state_2;\n  return ret;", "return old_state;\n", alu_as_string);
+
+  return alu_as_string
+ 
 # Write all holes to a single hole string for ease of debugging
 def generate_hole(hole_name, hole_bit_width):
   generate_hole.hole_names += [hole_name]
@@ -36,31 +60,6 @@ def generate_stateless_alu(alu_name, potential_operands):
   # add_assert(alu_name +  "_opcode" + "< 2") # Comment out because assert is redundant
   add_assert(alu_name + "_mode" + "< 3")
   return mux_op_1 + mux_op_2 + stateless_alu
-
-# Generate Sketch code for a simple stateful alu (+,-,*,/)
-# Takes one state and one packet operand (or immediate operand) as inputs
-# Updates the state in place and returns the old value of the state
-def generate_stateful_alu(alu_name):
-  stateful_alu = '''
-int %s(ref int s, int y) {
-  int opcode = %s;
-  int immediate_operand = %s;
-  int alu_mode = %s;
-  int old_val = s;
-  if (opcode == 0) {
-    s = s + (alu_mode == 0 ?  y : immediate_operand);
-  } else {
-    s = s - (alu_mode == 0 ?  y : immediate_operand);
-  }
-  return old_val;
-}
-'''%(alu_name, alu_name + "_opcode", alu_name + "_immediate", alu_name + "_mode")
-  generate_hole(alu_name + "_opcode", 1)
-  generate_hole(alu_name + "_immediate", 2)
-  generate_hole(alu_name + "_mode", 1)
-  # add_assert(alu_name +  "_opcode" + "< 2") # Comment out because assert is redundant.
-  # add_assert(alu_name + "_mode" + "< 2")    # Comment out because assert is redundant.
-  return stateful_alu
 
 def generate_state_allocator(num_pipeline_stages, num_alus_per_stage, num_state_vars):
   for i in range(num_pipeline_stages):

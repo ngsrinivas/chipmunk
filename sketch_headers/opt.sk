@@ -1,0 +1,6 @@
+generator int Opt(int op1) {
+  bit enable = ??(1);
+  if (! enable) return 0;
+
+  return op1;
+}

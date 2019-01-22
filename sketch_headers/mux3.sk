@@ -1,0 +1,7 @@
+generator int Mux3(int op1, int op2, int op3) {
+  int choice = ??(2);
+  if (choice == 0) return op1;
+  else if (choice == 1) return op2;
+  else if (choice == 2) return op3;
+  else assert(false);
+}

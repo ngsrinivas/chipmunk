@@ -20,14 +20,16 @@ def get_num_pkt_fields_and_state_vars(program):
 # k : PHV container within pipeline stage
 # l : packet field or state variable from program
 
-if (len(sys.argv) < 4):
-  print("Usage: python3 " + sys.argv[0] + " <program file> <number of pipeline stages> <number of stateless/stateful ALUs per stage>")
+if (len(sys.argv) < 5):
+  print("Usage: python3 " + sys.argv[0] + \
+        " <program file> <atom file> <number of pipeline stages> <number of stateless/stateful ALUs per stage>")
   sys.exit(1)
 else:
   program_file         = str(sys.argv[1])
+  alu_file             = str(sys.argv[2])
   (num_fields_in_prog, num_state_vars) = get_num_pkt_fields_and_state_vars(Path(program_file).read_text())
-  num_pipeline_stages  = int(sys.argv[2])
-  num_alus_per_stage   = int(sys.argv[3])
+  num_pipeline_stages  = int(sys.argv[3])
+  num_alus_per_stage   = int(sys.argv[4])
   num_phv_containers   = num_alus_per_stage
   assert(num_fields_in_prog <= num_phv_containers)
 
@@ -55,7 +57,7 @@ for i in range(num_pipeline_stages):
   for j in range(num_alus_per_stage):
     alu_definitions += generate_stateless_alu("stateless_alu_" + str(i) + "_" + str(j), ["input" + str(k) for k in range(0, num_phv_containers)]) + "\n"
   for l in range(num_state_vars):
-    alu_definitions += generate_stateful_alu("stateful_alu_" + str(i) + "_" + str(l)) + "\n"
+    alu_definitions += generate_stateful_alu("stateful_alu_" + str(i) + "_" + str(l), alu_file) + "\n"
 
 # Ensures each state var is assigned to exactly stateful ALU and vice versa.
 generate_state_allocator(num_pipeline_stages, num_alus_per_stage, num_state_vars)
