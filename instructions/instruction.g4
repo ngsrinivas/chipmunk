@@ -3,6 +3,13 @@ grammar instruction;
 // Hide whitespace, but don't skip it
 WS : [ \n\t\r]+ -> channel(HIDDEN);
 
+// Keywords
+RELOP : 'rel_op';
+MUX3  : 'Mux3';
+MUX2  : 'Mux2';
+OPT   : 'Opt';
+CONSTANT : 'Constant';
+
 // Identifiers
 ID : ('a'..'z' | 'A'..'Z') ('a'..'z' | 'A'..'Z' | '_' | '0'..'9')*;
 
@@ -26,15 +33,15 @@ guarded_updates : guarded_update
                 | guarded_update guarded_update_with_comma+;
 
 guarded_update : guard ':' update;
-guard  : 'rel_op' '(' expr ',' expr ')';
+guard  : RELOP '(' expr ',' expr ')';
 update : state_var '=' expr;
 expr   : state_var
        | packet_field
        | expr op=('+'|'-'|'*'|'/') expr
        | '(' expr ')'
-       | 'Mux3' '(' expr ',' expr ',' expr ')'
-       | 'Mux2' '(' expr ',' expr ')'
-       | 'Opt' '(' expr ')'
-       | 'Constant';
+       | MUX3 '(' expr ',' expr ',' expr ')'
+       | MUX2 '(' expr ',' expr ')'
+       | OPT '(' expr ')'
+       | CONSTANT;
 
 instruction: state_vars packet_fields guarded_updates;
