@@ -11,8 +11,7 @@ def main(argv):
     parser = instructionParser(stream)
     tree = parser.instruction()
     simple_visitor = SimpleVisitor()
-    print(simple_visitor.visit(tree))
-    print(tree.toStringTree())
+    simple_visitor.visit(tree)
  
 if __name__ == '__main__':
     main(sys.argv)
