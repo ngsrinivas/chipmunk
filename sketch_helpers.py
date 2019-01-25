@@ -15,7 +15,17 @@ generate_hole.hole_preamble = ""
 
 def add_assert(assert_predicate):
   add_assert.asserts += "assert(" + assert_predicate + ");\n"
+  add_assert.predicates += assert_predicate + "\n"
 add_assert.asserts = ""
+add_assert.predicates = ""
+
+# Generate assumes and asserts from predicates flexibly.
+# Example usage: emit_prefixed_predicates(add_assert.predicates, "assume")
+def emit_prefixed_predicates(predicates, prefix):
+  prefixed_preds = ""
+  for pred in predicates:
+    prefixed_preds += prefix + "(" + pred + ");\n"
+  return prefixed_preds
 
 # Generate Sketch code for a simple stateless alu (+,-,*,/) 
 def generate_stateless_alu(alu_name, potential_operands):
