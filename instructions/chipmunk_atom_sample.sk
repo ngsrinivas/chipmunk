@@ -1,0 +1,14 @@
+int hole1 = ??;
+int hole2 = ??;
+int atom(ref int s, int y) {
+  int opcode = hole1;
+  int immediate_operand = hole2;
+  int alu_mode = %s;
+  int old_val = s;
+  if (opcode == 0) {
+    s = s + (alu_mode == 0 ?  y : immediate_operand);
+  } else {
+    s = s - (alu_mode == 0 ?  y : immediate_operand);
+  }
+  return old_val;
+}
