@@ -2,6 +2,7 @@ import sys
 from antlr4 import *
 from instructionLexer import instructionLexer
 from instructionParser import instructionParser
+from simple_visitor import SimpleVisitor
  
 def main(argv):
     input = FileStream(argv[1])
@@ -9,6 +10,8 @@ def main(argv):
     stream = CommonTokenStream(lexer)
     parser = instructionParser(stream)
     tree = parser.instruction()
+    simple_visitor = SimpleVisitor()
+    print(simple_visitor.visit(tree))
     print(tree.toStringTree())
  
 if __name__ == '__main__':
