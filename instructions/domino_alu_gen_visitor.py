@@ -14,7 +14,7 @@ class DominoAluGenVisitor(instructionVisitor):
     print("StateResult ret = new StateResult();")
     print("ret.result_state_1 = state_1;")
     print("ret.result_state_2 = state_2;")
-    print("}")
+    print("return ret;}")
 
   def visitGuarded_update(self, ctx):
     assert(ctx.getChildCount() == 3)
