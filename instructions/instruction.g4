@@ -9,6 +9,7 @@ MUX3  : 'Mux3';
 MUX2  : 'Mux2';
 OPT   : 'Opt';
 CONSTANT : 'Constant';
+TRUE  : 'True';
 
 // Identifiers
 ID : ('a'..'z' | 'A'..'Z') ('a'..'z' | 'A'..'Z' | '_' | '0'..'9')*;
@@ -34,6 +35,7 @@ guarded_updates : guarded_update
 
 guarded_update : guard ':' update;
 guard  : RELOP '(' expr ',' expr ')';
+guard  : TRUE;
 update : state_var '=' expr;
 expr   : state_var
        | packet_field
