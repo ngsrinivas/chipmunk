@@ -4,18 +4,18 @@ grammar instruction;
 WS : [ \n\t\r]+ -> channel(HIDDEN);
 
 // Keywords
-RELOP : 'rel_op';
-MUX3  : 'Mux3';
-MUX2  : 'Mux2';
-OPT   : 'Opt';
-CONSTANT : 'Constant';
-TRUE  : 'True';
+RELOP : 'rel_op'; // <, >, <=, >=, ==, !=
+MUX3  : 'Mux3';   // 3-to-1 mux
+MUX2  : 'Mux2';   // 2-to-1 mux
+OPT   : 'Opt';    // Pick either the argument or 0
+CONSTANT : 'C()'; // Return a finite constant
+TRUE  : 'True';   // Guard corresponding to "always update"
 
 // Identifiers
 ID : ('a'..'z' | 'A'..'Z') ('a'..'z' | 'A'..'Z' | '_' | '0'..'9')*;
 
 // alias id to state_var and packet_field
-state_var : ID;
+state_var    : ID;
 packet_field : ID;
 
 // list of state_var
@@ -34,8 +34,8 @@ guarded_updates : guarded_update
                 | guarded_update guarded_update_with_comma+;
 
 guarded_update : guard ':' update;
-guard  : RELOP '(' expr ',' expr ')';
-guard  : TRUE;
+guard  : RELOP '(' expr ',' expr ')'
+       | TRUE;
 update : state_var '=' expr;
 expr   : state_var
        | packet_field

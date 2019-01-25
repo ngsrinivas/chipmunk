@@ -2,16 +2,17 @@ import sys
 from antlr4 import *
 from instructionLexer import instructionLexer
 from instructionParser import instructionParser
-from simple_visitor import SimpleVisitor
+from domino_alu_gen_visitor import DominoAluGenVisitor
  
 def main(argv):
-    input = FileStream(argv[1])
-    lexer = instructionLexer(input)
+    instruction_file = argv[1]
+    input_stream = FileStream(instruction_file)
+    lexer = instructionLexer(input_stream)
     stream = CommonTokenStream(lexer)
     parser = instructionParser(stream)
     tree = parser.instruction()
-    simple_visitor = SimpleVisitor()
-    simple_visitor.visit(tree)
+    domino_alu_gen_visitor = DominoAluGenVisitor(instruction_file)
+    domino_alu_gen_visitor.visit(tree)
  
 if __name__ == '__main__':
     main(sys.argv)
