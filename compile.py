@@ -62,20 +62,23 @@ generate_state_allocator(num_pipeline_stages, num_alus_per_stage, num_state_vars
 
 # Create sketch_file_as_string
 # code_gen_template = Template(Path("templates/code_generator.j2").read_text())
-code_gen_env = Environment(loader = FileSystemLoader("."))
-code_gen_template = code_gen_env.get_template("templates/code_generator.j2")
-code_generator = code_gen_template.render(program_file = program_file,\
-                                          num_pipeline_stages = num_pipeline_stages,\
-                                          num_alus_per_stage = num_alus_per_stage,\
-                                          num_phv_containers = num_phv_containers,\
-                                          hole_definitions = generate_hole.hole_preamble,\
-                                          operand_mux_definitions = operand_mux_definitions,\
-                                          output_mux_definitions = output_mux_definitions,\
-                                          alu_definitions = alu_definitions,\
-                                          num_fields_in_prog = num_fields_in_prog,\
-                                          num_state_vars = num_state_vars,\
+template_env = Environment(loader = FileSystemLoader("."))
+code_gen_template = template_env.get_template("templates/code_generator.j2")
+opt_verify_template = template_env.get_template("templates/opt_verify_sketch.j2")
+common_template_args = {"program_file": program_file,
+                        "num_pipeline_stages": num_pipeline_stages,
+                        "num_alus_per_stage": num_alus_per_stage,
+                        "num_phv_containers": num_phv_containers,
+                        "operand_mux_definitions": operand_mux_definitions,
+                        "output_mux_definitions": output_mux_definitions,
+                        "alu_definitions": alu_definitions,
+                        "num_fields_in_prog": num_fields_in_prog,
+                        "num_state_vars": num_state_vars,
+                        }
+code_generator = code_gen_template.render(hole_definitions = generate_hole.hole_preamble,\
                                           spec_as_sketch = Path(program_file).read_text(),\
-                                          all_assertions = add_assert.asserts)
+                                          all_assertions = add_assert.asserts,\
+                                          **common_template_args)
 
 # Create a temporary file and write sketch_harness into it.
 sketch_file = tempfile.NamedTemporaryFile(suffix = ".sk", dir = "/tmp/", delete = False)
