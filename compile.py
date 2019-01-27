@@ -64,7 +64,7 @@ generate_state_allocator(num_pipeline_stages, num_alus_per_stage, num_state_vars
 # code_gen_template = Template(Path("templates/code_generator.j2").read_text())
 template_env = Environment(loader = FileSystemLoader("."))
 code_gen_template = template_env.get_template("templates/code_generator.j2")
-opt_verify_template = template_env.get_template("templates/opt_verify_sketch.j2")
+opt_verify_sketch_template = template_env.get_template("templates/opt_verify_sketch.j2")
 common_template_args = {"program_file": program_file,
                         "num_pipeline_stages": num_pipeline_stages,
                         "num_alus_per_stage": num_alus_per_stage,
@@ -79,11 +79,21 @@ code_generator = code_gen_template.render(hole_definitions = generate_hole.hole_
                                           spec_as_sketch = Path(program_file).read_text(),\
                                           all_assertions = add_assert.asserts,\
                                           **common_template_args)
+opt_verifier_sketch = opt_verify_sketch_template.render(hole_args = generate_hole.hole_arg,\
+                                                        **common_template_args)
 
 # Create a temporary file and write sketch_harness into it.
 sketch_file = tempfile.NamedTemporaryFile(suffix = ".sk", dir = "/tmp/", delete = False)
 sketch_file.write(code_generator.encode())
 sketch_file.close()
+
+# Create a temporary file and write sketch definition for verification harness
+# into it.
+verifier_sketch_def = tempfile.NamedTemporaryFile(suffix = ".skfrag",
+                                                  dir = "/tmp/", delete = False)
+verifier_sketch_def.write(opt_verifier_sketch.encode())
+verifier_sketch_def.close()
+print("Wrote verifier fragment into", verifier_sketch_def.name)
 
 # Call sketch on it
 print("Total number of hole bits is", generate_hole.total_hole_bits)
