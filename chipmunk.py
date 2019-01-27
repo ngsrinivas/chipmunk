@@ -1,5 +1,5 @@
-from jinja2 import Template
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Template, Environment, FileSystemLoader
+import pickle
 from pathlib import Path
 import sys
 import math
@@ -82,7 +82,7 @@ if (mode == "codegen"):
                                             spec_as_sketch = Path(program_file).read_text(),\
                                             all_assertions = add_assert.asserts)
   
-  # Create a temporary file and write sketch_harness into it.
+  # Create file and write sketch_harness into it.
   sketch_file = open(output_name + ".sk", "w")
   sketch_file.write(code_generator)
   sketch_file.close()
@@ -123,21 +123,19 @@ elif (mode == "optverif"):
                                                     num_state_vars = num_state_vars,\
                                                     hole_arguments = generate_hole.hole_arguments,
                                                     sketch_name = output_name)
-  # Create temporary files and write sketch_function, holes, and constraints into them.
+  # Create files and write sketch_function, holes, and constraints into them.
   sketch_file = open(output_name + ".sk", "w")
   sketch_file.write(sketch_function)
   sketch_file.close()
   print("Sketch file is ", sketch_file.name)
 
-  hole_file   = open(output_name + ".holes", "w")
-  for hole in generate_hole.holes:
-    hole_file.write((hole.name + " " + str(hole.max) + "\n"))
-  hole_file.close()
-  print("Hole file is ", hole_file.name)
+  holes_file   = open(output_name + ".holes", "wb")
+  pickle.dump(generate_hole.holes, holes_file)
+  holes_file.close()
+  print("Holes file is ", holes_file.name)
 
-  constraints_file = open(output_name + ".constraints", "w")
-  for constraint in add_assert.constraints:
-    constraints_file.write((constraint + "\n"))
+  constraints_file = open(output_name + ".constraints", "wb")
+  pickle.dump(add_assert.constraints, constraints_file)
   constraints_file.close()
   print("Constraints file is ", constraints_file.name)
 
