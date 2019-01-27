@@ -48,10 +48,10 @@ harness void main(
   // Postconditions:
 
   {% for hole in sketch2_holes %}
-  assume(({{hole.name}} >= 0) && ({{hole.name}} <= {{hole.max}}));
+  assert(({{hole.name}} >= 0) && ({{hole.name}} <= {{hole.max}}));
   {% endfor %}
 
   {% for predicate in sketch2_asserts %}
-  assume({{predicate}});
+  assert({{predicate}});
   {% endfor %}
 }
