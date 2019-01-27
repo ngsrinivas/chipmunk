@@ -122,12 +122,25 @@ elif (mode == "optverif"):
                                                     num_state_vars = num_state_vars,\
                                                     hole_arguments = generate_hole.hole_arguments,
                                                     sketch_name = sys.argv[5])
-  # Create a temporary file and write sketch_function into it.
+  # Create temporary files and write sketch_function, holes, and constraints into them.
   sketch_file = tempfile.NamedTemporaryFile(suffix = ".sk", dir = "/tmp/", delete = False)
   sketch_file.write(sketch_function.encode())
   sketch_file.close()
-  print("Total number of hole bits is", generate_hole.total_hole_bits)
   print("Sketch file is ", sketch_file.name)
+
+  hole_file   = tempfile.NamedTemporaryFile(suffix = ".hole", dir = "/tmp/", delete = False)
+  for hole in generate_hole.holes:
+    hole_file.write((hole.name + " " + str(hole.max) + "\n").encode())
+  hole_file.close()
+  print("Hole file is ", hole_file.name)
+
+  constraints_file = tempfile.NamedTemporaryFile(suffix = ".constraints", dir = "/tmp/", delete = False)
+  for constraint in add_assert.constraints:
+    constraints_file.write((constraint + "\n").encode())
+  constraints_file.close()
+  print("Constraints file is ", constraints_file.name)
+
+  print("Total number of hole bits is", generate_hole.total_hole_bits)
 
 else:
   assert(False)
