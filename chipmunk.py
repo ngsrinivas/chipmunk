@@ -68,20 +68,20 @@ env = Environment(loader=FileSystemLoader('./templates'))
 
 if (mode == "codegen"):
   code_gen_template = env.get_template("code_generator.j2")
-  code_generator = code_gen_template.render(mode = "codegen",\
-                                            program_file = program_file,\
-                                            num_pipeline_stages = num_pipeline_stages,\
-                                            num_alus_per_stage = num_alus_per_stage,\
-                                            num_phv_containers = num_phv_containers,\
-                                            hole_definitions = generate_hole.hole_preamble,\
-                                            operand_mux_definitions = operand_mux_definitions,\
-                                            output_mux_definitions = output_mux_definitions,\
-                                            alu_definitions = alu_definitions,\
-                                            num_fields_in_prog = num_fields_in_prog,\
-                                            num_state_vars = num_state_vars,\
-                                            spec_as_sketch = Path(program_file).read_text(),\
+  code_generator = code_gen_template.render(mode = "codegen",
+                                            program_file = program_file,
+                                            num_pipeline_stages = num_pipeline_stages,
+                                            num_alus_per_stage = num_alus_per_stage,
+                                            num_phv_containers = num_phv_containers,
+                                            hole_definitions = generate_hole.hole_preamble,
+                                            operand_mux_definitions = operand_mux_definitions,
+                                            output_mux_definitions = output_mux_definitions,
+                                            alu_definitions = alu_definitions,
+                                            num_fields_in_prog = num_fields_in_prog,
+                                            num_state_vars = num_state_vars,
+                                            spec_as_sketch = Path(program_file).read_text(),
                                             all_assertions = add_assert.asserts)
-  
+
   # Create file and write sketch_harness into it.
   sketch_file = open(output_name + ".sk", "w")
   sketch_file.write(code_generator)
@@ -111,16 +111,16 @@ if (mode == "codegen"):
 
 elif (mode == "optverif"):
   sketch_function_template = env.get_template("sketch_functions.j2")
-  sketch_function = sketch_function_template.render(mode = "optverif",\
-                                                    program_file = program_file,\
-                                                    num_pipeline_stages = num_pipeline_stages,\
-                                                    num_alus_per_stage = num_alus_per_stage,\
-                                                    num_phv_containers = num_phv_containers,\
-                                                    operand_mux_definitions = operand_mux_definitions,\
-                                                    output_mux_definitions = output_mux_definitions,\
-                                                    alu_definitions = alu_definitions,\
-                                                    num_fields_in_prog = num_fields_in_prog,\
-                                                    num_state_vars = num_state_vars,\
+  sketch_function = sketch_function_template.render(mode = "optverif",
+                                                    program_file = program_file,
+                                                    num_pipeline_stages = num_pipeline_stages,
+                                                    num_alus_per_stage = num_alus_per_stage,
+                                                    num_phv_containers = num_phv_containers,
+                                                    operand_mux_definitions = operand_mux_definitions,
+                                                    output_mux_definitions = output_mux_definitions,
+                                                    alu_definitions = alu_definitions,
+                                                    num_fields_in_prog = num_fields_in_prog,
+                                                    num_state_vars = num_state_vars,
                                                     hole_arguments = generate_hole.hole_arguments,
                                                     sketch_name = output_name)
   # Create files and write sketch_function, holes, and constraints into them.
@@ -130,7 +130,7 @@ elif (mode == "optverif"):
   print("Sketch file is ", sketch_file.name)
 
   holes_file   = open(output_name + ".holes", "wb")
-  pickle.dump(generate_hole.holes, holes_file)
+  pickle.dump([generate_hole.holes + generate_hole.hole_arguments], holes_file)
   holes_file.close()
   print("Holes file is ", holes_file.name)
 
