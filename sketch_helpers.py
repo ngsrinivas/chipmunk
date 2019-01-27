@@ -9,6 +9,10 @@ class Hole:
     self.name = hole_name
     self.max  = max_value
 
+# Read contents of file_name into a string
+def file_to_str(file_name):
+  return Path(file_name).read_text()
+
 # Write all holes to a single hole string for ease of debugging
 def generate_hole(hole_name, hole_bit_width):
   generate_hole.hole_names += [hole_name]
