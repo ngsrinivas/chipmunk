@@ -6,38 +6,8 @@
 
 {{ hole_definitions }}
 
-// Operand muxes for each ALU in each stage
-// Total of {{ num_pipeline_stages }} * {{ num_alus_per_stage }} * 3 {{num_phv_containers}}-to-1 muxes
-// The 3 is for two stateless operands and one stateful operand.
-
-{{ operand_mux_definitions }}
-
-// Output mux for each PHV container
-// Allows the container to be written from either its own stateless ALU or any stateful ALU
-
-{{ output_mux_definitions }}
-
-// Definition for ALUs
-
-{{ alu_definitions }}
-
-// Data type for holding result from spec and implementation
-struct StateAndPacket {
-  {% for field_number in range(num_fields_in_prog) %}
-    int pkt_{{field_number}};
-  {% endfor %}
-  {% for state_number in range(num_state_vars) %}
-    int state_{{state_number}};
-  {% endfor %}
-}
-
-// Data type for selection from mux
-struct MuxSelection {
-  int value;
-  int index;
-}
-
-// Sketch holes corresponding to stateful configuration indicator variables
+{# Include sub-template to contain definitions required to write the sketch #}
+{% include 'templates/code_generator_defs.j2' %}
 
 // Specification
 {{spec_as_sketch}}

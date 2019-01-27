@@ -1,4 +1,4 @@
-from jinja2 import Template
+from jinja2 import Template, Environment, FileSystemLoader
 from pathlib import Path
 import sys
 import math
@@ -61,7 +61,9 @@ for i in range(num_pipeline_stages):
 generate_state_allocator(num_pipeline_stages, num_alus_per_stage, num_state_vars)
 
 # Create sketch_file_as_string
-code_gen_template = Template(Path("templates/code_generator.j2").read_text())
+# code_gen_template = Template(Path("templates/code_generator.j2").read_text())
+code_gen_env = Environment(loader = FileSystemLoader("."))
+code_gen_template = code_gen_env.get_template("templates/code_generator.j2")
 code_generator = code_gen_template.render(program_file = program_file,\
                                           num_pipeline_stages = num_pipeline_stages,\
                                           num_alus_per_stage = num_alus_per_stage,\
