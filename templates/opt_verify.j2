@@ -8,33 +8,33 @@ struct StateAndPacket {
   {% endfor %}
 }
 
-include "{{sketch1_file_name}}"
-include "{{sketch2_file_name}}"
+include "{{sketch1_file_name}}";
+include "{{sketch2_file_name}}";
 
-harness void main({{input_arguments}}, {{hole1_arguments}}, {{hole2_arguments}}) {
+harness void main(|StateAndPacket| state_and_packet, {{hole1_arguments|join(',')}}, {{hole2_arguments|join(',')}}) {
   // Preconditions:
 
   {% for hole in sketch1_holes %}
-  assume((hole.name >= 0) && (hole.name <= hole.max));
+  assume(({{hole.name}} >= 0) && ({{hole.name}} <= {{hole.max}}));
   {% endfor %}
 
   {% for predicate in sketch1_asserts %}
-  assume(predicate);
+  assume({{predicate}});
   {% endfor %}
 
   // Transformation from sketch 1's holes to sketch 2's holes
-  {{ transformation_function }}
+  {{ transform_function }}
 
   // Check that sketches are equivalent.
-  assert({{sketch1_name}}({{input_arguments}}, {{hole1_arguments}}) == {{sketch2_name}}({{input_arguments}}, {{hole2_arguments}}));
+  assert({{sketch1_name}}(state_and_packet, {{sketch1_holes|map(attribute='name')|join(',')}}) == {{sketch2_name}}(state_and_packet, {{sketch2_holes|map(attribute='name')|join(',')}}));
 
   // Postconditions:
 
   {% for hole in sketch2_holes %}
-  assume((hole.name >= 0) && (hole.name <= hole.max));
+  assume(({{hole.name}} >= 0) && ({{hole.name}} <= {{hole.max}}));
   {% endfor %}
 
   {% for predicate in sketch2_asserts %}
-  assume(predicate);
+  assume({{predicate}});
   {% endfor %}
 }
