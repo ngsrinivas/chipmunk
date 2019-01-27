@@ -7,7 +7,7 @@
 {{ hole_definitions }}
 
 {# Include sub-template to contain definitions required to write the sketch #}
-{% include 'templates/code_generator_defs.j2' %}
+{% include 'templates/sketch_defs.j2' %}
 
 // Specification
 {{spec_as_sketch}}
@@ -17,5 +17,5 @@
   {{all_assertions}}
 
   {# Include sub-template for the main sketch body #}
-  {% include 'templates/sketch-body.j2' %}
+  {% include 'templates/sketch_body.j2' %}
 }
