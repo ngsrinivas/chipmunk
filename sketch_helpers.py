@@ -19,9 +19,9 @@ generate_hole.hole_arg = ""
 
 def add_assert(assert_predicate):
   add_assert.asserts += "assert(" + assert_predicate + ");\n"
-  add_assert.predicates += assert_predicate + "\n"
+  add_assert.predicates.append(assert_predicate)
 add_assert.asserts = ""
-add_assert.predicates = ""
+add_assert.predicates = []
 
 # Generate assumes and asserts from predicates flexibly.
 # Example usage: emit_prefixed_predicates(add_assert.predicates, "assume")

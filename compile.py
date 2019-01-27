@@ -65,6 +65,9 @@ generate_state_allocator(num_pipeline_stages, num_alus_per_stage, num_state_vars
 template_env = Environment(loader = FileSystemLoader("."))
 code_gen_template = template_env.get_template("templates/code_generator.j2")
 opt_verify_sketch_template = template_env.get_template("templates/opt_verify_sketch.j2")
+opt_verify_harness_args = generate_hole.hole_arg
+opt_verify_asserts = emit_prefixed_predicates(add_assert.predicates, "assert")
+opt_verify_assumes = emit_prefixed_predicates(add_assert.predicates, "assume")
 common_template_args = {"program_file": program_file,
                         "num_pipeline_stages": num_pipeline_stages,
                         "num_alus_per_stage": num_alus_per_stage,
@@ -82,18 +85,31 @@ code_generator = code_gen_template.render(hole_definitions = generate_hole.hole_
 opt_verifier_sketch = opt_verify_sketch_template.render(hole_args = generate_hole.hole_arg,\
                                                         **common_template_args)
 
-# Create a temporary file and write sketch_harness into it.
-sketch_file = tempfile.NamedTemporaryFile(suffix = ".sk", dir = "/tmp/", delete = False)
-sketch_file.write(code_generator.encode())
-sketch_file.close()
-
-# Create a temporary file and write sketch definition for verification harness
-# into it.
-verifier_sketch_def = tempfile.NamedTemporaryFile(suffix = ".skfrag",
-                                                  dir = "/tmp/", delete = False)
-verifier_sketch_def.write(opt_verifier_sketch.encode())
-verifier_sketch_def.close()
-print("Wrote verifier fragment into", verifier_sketch_def.name)
+# Create temporary files for outputs from compilation and write into them.
+file_list = ["sketch",
+             "verifier_sketch",
+             "verifier_assumes",
+             "verifier_asserts",
+             "verifier_harness_args"]
+file_suffixes = {"sketch": ".sk",
+                 "verifier_sketch": ".skfrag",
+                 "verifier_assumes": ".assumes.skfrag",
+                 "verifier_asserts": ".asserts.skfrag",
+                 "verifier_harness_args": ".args.skfrag"}
+file_contents = {"sketch": code_generator.encode(),
+                 "verifier_sketch": opt_verifier_sketch.encode(),
+                 "verifier_assumes": opt_verify_assumes.encode(),
+                 "verifier_asserts": opt_verify_asserts.encode(),
+                 "verifier_harness_args": opt_verify_harness_args.encode()}
+file_tmps = {}
+for f in file_list:
+  f_file = tempfile.NamedTemporaryFile(suffix = file_suffixes[f],
+                                       dir = "/tmp/", delete=False)
+  f_file.write(file_contents[f])
+  print("Wrote", f, "into", f_file.name)
+  file_tmps[f] = f_file
+  f_file.close()
+sketch_file = file_tmps["sketch"]
 
 # Call sketch on it
 print("Total number of hole bits is", generate_hole.total_hole_bits)
