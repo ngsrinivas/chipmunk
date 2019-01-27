@@ -1,0 +1,41 @@
+SKETCH version 1.7.5
+Benchmark = output.sk
+    [0;32m[1548629562.8340 - DEBUG] Running stage 'parse' -- Parse the program from a file[0m
+    [0;32m[1548629562.9880 - DEBUG] Running stage 'preproc' -- Preprocessing (used for all further transformations)[0m
+    [0;32m[1548629563.0630 - DEBUG] Running stage SpmdLowLevelCStage[0m
+    [0;32m[1548629563.0660 - DEBUG]    Running visitor FlattenStmtBlocks2[0m
+    [0;32m[1548629563.0670 - DEBUG]    Running visitor SplitAssignFromVarDef[0m
+    [0;32m[1548629563.0680 - DEBUG]    Running visitor EliminateComplexForLoops[0m
+    [0;32m[1548629563.0690 - DEBUG] Running stage 'lowering' -- Lower for SKETCH backend[0m
+[ERROR] [SKETCH] Failed with NullPointerException exception; message: null
+java.lang.NullPointerException
+	at sketch.compiler.passes.lowering.CollectFunCallsToCombine$CheckRecursive.visitExprFunCall(CollectFunCallsToCombine.java:56)
+	at sketch.compiler.ast.core.exprs.ExprFunCall.accept(ExprFunCall.java:139)
+	at sketch.compiler.ast.core.FEReplacer.visitStmtExpr(FEReplacer.java:630)
+	at sketch.compiler.ast.core.stmts.StmtExpr.accept(StmtExpr.java:56)
+	at sketch.compiler.ast.core.FEReplacer.doStatement(FEReplacer.java:171)
+	at sketch.compiler.ast.core.FEReplacer.visitStmtBlock(FEReplacer.java:525)
+	at sketch.compiler.ast.core.stmts.StmtBlock.accept(StmtBlock.java:116)
+	at sketch.compiler.passes.lowering.CollectFunCallsToCombine$CheckRecursive.visitExprFunCall(CollectFunCallsToCombine.java:58)
+	at sketch.compiler.ast.core.exprs.ExprFunCall.accept(ExprFunCall.java:139)
+	at sketch.compiler.ast.core.FEReplacer.visitStmtExpr(FEReplacer.java:630)
+	at sketch.compiler.ast.core.stmts.StmtExpr.accept(StmtExpr.java:56)
+	at sketch.compiler.ast.core.FEReplacer.doStatement(FEReplacer.java:171)
+	at sketch.compiler.ast.core.FEReplacer.visitStmtBlock(FEReplacer.java:525)
+	at sketch.compiler.ast.core.stmts.StmtBlock.accept(StmtBlock.java:116)
+	at sketch.compiler.passes.lowering.CollectFunCallsToCombine$CheckRecursive.visitExprFunCall(CollectFunCallsToCombine.java:58)
+	at sketch.compiler.ast.core.exprs.ExprFunCall.accept(ExprFunCall.java:139)
+	at sketch.compiler.ast.core.FEReplacer.visitStmtExpr(FEReplacer.java:630)
+	at sketch.compiler.ast.core.stmts.StmtExpr.accept(StmtExpr.java:56)
+	at sketch.compiler.ast.core.FEReplacer.doStatement(FEReplacer.java:171)
+	at sketch.compiler.ast.core.FEReplacer.visitStmtBlock(FEReplacer.java:525)
+	at sketch.compiler.ast.core.stmts.StmtBlock.accept(StmtBlock.java:116)
+	at sketch.compiler.passes.lowering.CollectFunCallsToCombine.visitProgram(CollectFunCallsToCombine.java:80)
+	at sketch.compiler.ast.core.Program.accept(Program.java:145)
+	at sketch.compiler.main.passes.LowerToSketch.visitProgramInner(LowerToSketch.java:44)
+	at sketch.compiler.main.passes.MetaStage.visitProgram(MetaStage.java:43)
+	at sketch.compiler.main.seq.SequentialSketchMain.lowerToSketch(SequentialSketchMain.java:356)
+	at sketch.compiler.main.seq.SequentialSketchMain.partialEvalAndSolve(SequentialSketchMain.java:294)
+	at sketch.compiler.main.seq.SequentialSketchMain.run(SequentialSketchMain.java:649)
+	at sketch.compiler.main.seq.SequentialSketchMain.main(SequentialSketchMain.java:715)
+Total time = 303
