@@ -3,14 +3,8 @@ struct StateAndPacket {
   
     int pkt_0;
   
-    int pkt_1;
-  
-    int pkt_2;
-  
   
     int state_0;
-  
-    int state_1;
   
 }
 
@@ -21,54 +15,24 @@ harness void main(
   
     int sanp_pkt_0,
   
-    int sanp_pkt_1,
-  
-    int sanp_pkt_2,
-  
   
     int sanp_state_0,
   
-    int sanp_state_1,
-  
-  int stateful_operand_mux_0_0_ctrl,int stateful_operand_mux_0_1_ctrl,int stateful_operand_mux_1_0_ctrl,int stateful_operand_mux_1_1_ctrl,int stateful_operand_mux_2_0_ctrl,int stateful_operand_mux_2_1_ctrl,int output_mux_phv_0_0_ctrl,int output_mux_phv_0_1_ctrl,int output_mux_phv_0_2_ctrl,int output_mux_phv_1_0_ctrl,int output_mux_phv_1_1_ctrl,int output_mux_phv_1_2_ctrl,int output_mux_phv_2_0_ctrl,int output_mux_phv_2_1_ctrl,int output_mux_phv_2_2_ctrl,int stateless_alu_0_0_mux1_ctrl,int stateless_alu_0_0_mux2_ctrl,int stateless_alu_0_0_opcode,int stateless_alu_0_0_immediate,int stateless_alu_0_0_mode,int stateless_alu_0_1_mux1_ctrl,int stateless_alu_0_1_mux2_ctrl,int stateless_alu_0_1_opcode,int stateless_alu_0_1_immediate,int stateless_alu_0_1_mode,int stateless_alu_0_2_mux1_ctrl,int stateless_alu_0_2_mux2_ctrl,int stateless_alu_0_2_opcode,int stateless_alu_0_2_immediate,int stateless_alu_0_2_mode,int stateful_alu_0_0_opcode,int stateful_alu_0_0_immediate,int stateful_alu_0_0_mode,int stateful_alu_0_1_opcode,int stateful_alu_0_1_immediate,int stateful_alu_0_1_mode,int stateless_alu_1_0_mux1_ctrl,int stateless_alu_1_0_mux2_ctrl,int stateless_alu_1_0_opcode,int stateless_alu_1_0_immediate,int stateless_alu_1_0_mode,int stateless_alu_1_1_mux1_ctrl,int stateless_alu_1_1_mux2_ctrl,int stateless_alu_1_1_opcode,int stateless_alu_1_1_immediate,int stateless_alu_1_1_mode,int stateless_alu_1_2_mux1_ctrl,int stateless_alu_1_2_mux2_ctrl,int stateless_alu_1_2_opcode,int stateless_alu_1_2_immediate,int stateless_alu_1_2_mode,int stateful_alu_1_0_opcode,int stateful_alu_1_0_immediate,int stateful_alu_1_0_mode,int stateful_alu_1_1_opcode,int stateful_alu_1_1_immediate,int stateful_alu_1_1_mode,int stateless_alu_2_0_mux1_ctrl,int stateless_alu_2_0_mux2_ctrl,int stateless_alu_2_0_opcode,int stateless_alu_2_0_immediate,int stateless_alu_2_0_mode,int stateless_alu_2_1_mux1_ctrl,int stateless_alu_2_1_mux2_ctrl,int stateless_alu_2_1_opcode,int stateless_alu_2_1_immediate,int stateless_alu_2_1_mode,int stateless_alu_2_2_mux1_ctrl,int stateless_alu_2_2_mux2_ctrl,int stateless_alu_2_2_opcode,int stateless_alu_2_2_immediate,int stateless_alu_2_2_mode,int stateful_alu_2_0_opcode,int stateful_alu_2_0_immediate,int stateful_alu_2_0_mode,int stateful_alu_2_1_opcode,int stateful_alu_2_1_immediate,int stateful_alu_2_1_mode,int salu_config_0_0,int salu_config_0_1,int salu_config_1_0,int salu_config_1_1,int salu_config_2_0,int salu_config_2_1,
-  int stateful_operand_mux_0_0_ctrl,int stateful_operand_mux_0_1_ctrl,int stateful_operand_mux_1_0_ctrl,int stateful_operand_mux_1_1_ctrl,int stateful_operand_mux_2_0_ctrl,int stateful_operand_mux_2_1_ctrl,int output_mux_phv_0_0_ctrl,int output_mux_phv_0_1_ctrl,int output_mux_phv_0_2_ctrl,int output_mux_phv_1_0_ctrl,int output_mux_phv_1_1_ctrl,int output_mux_phv_1_2_ctrl,int output_mux_phv_2_0_ctrl,int output_mux_phv_2_1_ctrl,int output_mux_phv_2_2_ctrl,int stateless_alu_0_0_mux1_ctrl,int stateless_alu_0_0_mux2_ctrl,int stateless_alu_0_0_opcode,int stateless_alu_0_0_immediate,int stateless_alu_0_0_mode,int stateless_alu_0_1_mux1_ctrl,int stateless_alu_0_1_mux2_ctrl,int stateless_alu_0_1_opcode,int stateless_alu_0_1_immediate,int stateless_alu_0_1_mode,int stateless_alu_0_2_mux1_ctrl,int stateless_alu_0_2_mux2_ctrl,int stateless_alu_0_2_opcode,int stateless_alu_0_2_immediate,int stateless_alu_0_2_mode,int stateful_alu_0_0_opcode,int stateful_alu_0_0_immediate,int stateful_alu_0_0_mode,int stateful_alu_0_1_opcode,int stateful_alu_0_1_immediate,int stateful_alu_0_1_mode,int stateless_alu_1_0_mux1_ctrl,int stateless_alu_1_0_mux2_ctrl,int stateless_alu_1_0_opcode,int stateless_alu_1_0_immediate,int stateless_alu_1_0_mode,int stateless_alu_1_1_mux1_ctrl,int stateless_alu_1_1_mux2_ctrl,int stateless_alu_1_1_opcode,int stateless_alu_1_1_immediate,int stateless_alu_1_1_mode,int stateless_alu_1_2_mux1_ctrl,int stateless_alu_1_2_mux2_ctrl,int stateless_alu_1_2_opcode,int stateless_alu_1_2_immediate,int stateless_alu_1_2_mode,int stateful_alu_1_0_opcode,int stateful_alu_1_0_immediate,int stateful_alu_1_0_mode,int stateful_alu_1_1_opcode,int stateful_alu_1_1_immediate,int stateful_alu_1_1_mode,int stateless_alu_2_0_mux1_ctrl,int stateless_alu_2_0_mux2_ctrl,int stateless_alu_2_0_opcode,int stateless_alu_2_0_immediate,int stateless_alu_2_0_mode,int stateless_alu_2_1_mux1_ctrl,int stateless_alu_2_1_mux2_ctrl,int stateless_alu_2_1_opcode,int stateless_alu_2_1_immediate,int stateless_alu_2_1_mode,int stateless_alu_2_2_mux1_ctrl,int stateless_alu_2_2_mux2_ctrl,int stateless_alu_2_2_opcode,int stateless_alu_2_2_immediate,int stateless_alu_2_2_mode,int stateful_alu_2_0_opcode,int stateful_alu_2_0_immediate,int stateful_alu_2_0_mode,int stateful_alu_2_1_opcode,int stateful_alu_2_1_immediate,int stateful_alu_2_1_mode,int salu_config_0_0,int salu_config_0_1,int salu_config_1_0,int salu_config_1_1,int salu_config_2_0,int salu_config_2_1) {
+  int stateful_operand_mux_0_0_ctrl,int output_mux_phv_0_0_ctrl,int output_mux_phv_0_1_ctrl,int stateless_alu_0_0_mux1_ctrl,int stateless_alu_0_0_mux2_ctrl,int stateless_alu_0_0_opcode,int stateless_alu_0_0_immediate,int stateless_alu_0_0_mode,int stateless_alu_0_1_mux1_ctrl,int stateless_alu_0_1_mux2_ctrl,int stateless_alu_0_1_opcode,int stateless_alu_0_1_immediate,int stateless_alu_0_1_mode,int stateful_alu_0_0_opcode,int stateful_alu_0_0_immediate,int stateful_alu_0_0_mode,int salu_config_0_0,
+  int stateful_operand_mux_0_0_ctrl,int output_mux_phv_0_0_ctrl,int output_mux_phv_0_1_ctrl,int stateless_alu_0_0_mux1_ctrl,int stateless_alu_0_0_mux2_ctrl,int stateless_alu_0_0_opcode,int stateless_alu_0_0_immediate,int stateless_alu_0_0_mode,int stateless_alu_0_1_mux1_ctrl,int stateless_alu_0_1_mux2_ctrl,int stateless_alu_0_1_opcode,int stateless_alu_0_1_immediate,int stateless_alu_0_1_mode,int stateful_alu_0_0_opcode,int stateful_alu_0_0_immediate,int stateful_alu_0_0_mode,int salu_config_0_0) {
 
   // Preconditions:
 
   
-  assume((stateful_operand_mux_0_0_ctrl >= 0) && (stateful_operand_mux_0_0_ctrl <= 4));
+  assume((stateful_operand_mux_0_0_ctrl >= 0) && (stateful_operand_mux_0_0_ctrl <= 2));
   
-  assume((stateful_operand_mux_0_1_ctrl >= 0) && (stateful_operand_mux_0_1_ctrl <= 4));
+  assume((output_mux_phv_0_0_ctrl >= 0) && (output_mux_phv_0_0_ctrl <= 2));
   
-  assume((stateful_operand_mux_1_0_ctrl >= 0) && (stateful_operand_mux_1_0_ctrl <= 4));
+  assume((output_mux_phv_0_1_ctrl >= 0) && (output_mux_phv_0_1_ctrl <= 2));
   
-  assume((stateful_operand_mux_1_1_ctrl >= 0) && (stateful_operand_mux_1_1_ctrl <= 4));
+  assume((stateless_alu_0_0_mux1_ctrl >= 0) && (stateless_alu_0_0_mux1_ctrl <= 2));
   
-  assume((stateful_operand_mux_2_0_ctrl >= 0) && (stateful_operand_mux_2_0_ctrl <= 4));
-  
-  assume((stateful_operand_mux_2_1_ctrl >= 0) && (stateful_operand_mux_2_1_ctrl <= 4));
-  
-  assume((output_mux_phv_0_0_ctrl >= 0) && (output_mux_phv_0_0_ctrl <= 4));
-  
-  assume((output_mux_phv_0_1_ctrl >= 0) && (output_mux_phv_0_1_ctrl <= 4));
-  
-  assume((output_mux_phv_0_2_ctrl >= 0) && (output_mux_phv_0_2_ctrl <= 4));
-  
-  assume((output_mux_phv_1_0_ctrl >= 0) && (output_mux_phv_1_0_ctrl <= 4));
-  
-  assume((output_mux_phv_1_1_ctrl >= 0) && (output_mux_phv_1_1_ctrl <= 4));
-  
-  assume((output_mux_phv_1_2_ctrl >= 0) && (output_mux_phv_1_2_ctrl <= 4));
-  
-  assume((output_mux_phv_2_0_ctrl >= 0) && (output_mux_phv_2_0_ctrl <= 4));
-  
-  assume((output_mux_phv_2_1_ctrl >= 0) && (output_mux_phv_2_1_ctrl <= 4));
-  
-  assume((output_mux_phv_2_2_ctrl >= 0) && (output_mux_phv_2_2_ctrl <= 4));
-  
-  assume((stateless_alu_0_0_mux1_ctrl >= 0) && (stateless_alu_0_0_mux1_ctrl <= 4));
-  
-  assume((stateless_alu_0_0_mux2_ctrl >= 0) && (stateless_alu_0_0_mux2_ctrl <= 4));
+  assume((stateless_alu_0_0_mux2_ctrl >= 0) && (stateless_alu_0_0_mux2_ctrl <= 2));
   
   assume((stateless_alu_0_0_opcode >= 0) && (stateless_alu_0_0_opcode <= 2));
   
@@ -76,9 +40,9 @@ harness void main(
   
   assume((stateless_alu_0_0_mode >= 0) && (stateless_alu_0_0_mode <= 4));
   
-  assume((stateless_alu_0_1_mux1_ctrl >= 0) && (stateless_alu_0_1_mux1_ctrl <= 4));
+  assume((stateless_alu_0_1_mux1_ctrl >= 0) && (stateless_alu_0_1_mux1_ctrl <= 2));
   
-  assume((stateless_alu_0_1_mux2_ctrl >= 0) && (stateless_alu_0_1_mux2_ctrl <= 4));
+  assume((stateless_alu_0_1_mux2_ctrl >= 0) && (stateless_alu_0_1_mux2_ctrl <= 2));
   
   assume((stateless_alu_0_1_opcode >= 0) && (stateless_alu_0_1_opcode <= 2));
   
@@ -86,237 +50,41 @@ harness void main(
   
   assume((stateless_alu_0_1_mode >= 0) && (stateless_alu_0_1_mode <= 4));
   
-  assume((stateless_alu_0_2_mux1_ctrl >= 0) && (stateless_alu_0_2_mux1_ctrl <= 4));
-  
-  assume((stateless_alu_0_2_mux2_ctrl >= 0) && (stateless_alu_0_2_mux2_ctrl <= 4));
-  
-  assume((stateless_alu_0_2_opcode >= 0) && (stateless_alu_0_2_opcode <= 2));
-  
-  assume((stateless_alu_0_2_immediate >= 0) && (stateless_alu_0_2_immediate <= 4));
-  
-  assume((stateless_alu_0_2_mode >= 0) && (stateless_alu_0_2_mode <= 4));
-  
   assume((stateful_alu_0_0_opcode >= 0) && (stateful_alu_0_0_opcode <= 2));
   
   assume((stateful_alu_0_0_immediate >= 0) && (stateful_alu_0_0_immediate <= 4));
   
   assume((stateful_alu_0_0_mode >= 0) && (stateful_alu_0_0_mode <= 2));
   
-  assume((stateful_alu_0_1_opcode >= 0) && (stateful_alu_0_1_opcode <= 2));
-  
-  assume((stateful_alu_0_1_immediate >= 0) && (stateful_alu_0_1_immediate <= 4));
-  
-  assume((stateful_alu_0_1_mode >= 0) && (stateful_alu_0_1_mode <= 2));
-  
-  assume((stateless_alu_1_0_mux1_ctrl >= 0) && (stateless_alu_1_0_mux1_ctrl <= 4));
-  
-  assume((stateless_alu_1_0_mux2_ctrl >= 0) && (stateless_alu_1_0_mux2_ctrl <= 4));
-  
-  assume((stateless_alu_1_0_opcode >= 0) && (stateless_alu_1_0_opcode <= 2));
-  
-  assume((stateless_alu_1_0_immediate >= 0) && (stateless_alu_1_0_immediate <= 4));
-  
-  assume((stateless_alu_1_0_mode >= 0) && (stateless_alu_1_0_mode <= 4));
-  
-  assume((stateless_alu_1_1_mux1_ctrl >= 0) && (stateless_alu_1_1_mux1_ctrl <= 4));
-  
-  assume((stateless_alu_1_1_mux2_ctrl >= 0) && (stateless_alu_1_1_mux2_ctrl <= 4));
-  
-  assume((stateless_alu_1_1_opcode >= 0) && (stateless_alu_1_1_opcode <= 2));
-  
-  assume((stateless_alu_1_1_immediate >= 0) && (stateless_alu_1_1_immediate <= 4));
-  
-  assume((stateless_alu_1_1_mode >= 0) && (stateless_alu_1_1_mode <= 4));
-  
-  assume((stateless_alu_1_2_mux1_ctrl >= 0) && (stateless_alu_1_2_mux1_ctrl <= 4));
-  
-  assume((stateless_alu_1_2_mux2_ctrl >= 0) && (stateless_alu_1_2_mux2_ctrl <= 4));
-  
-  assume((stateless_alu_1_2_opcode >= 0) && (stateless_alu_1_2_opcode <= 2));
-  
-  assume((stateless_alu_1_2_immediate >= 0) && (stateless_alu_1_2_immediate <= 4));
-  
-  assume((stateless_alu_1_2_mode >= 0) && (stateless_alu_1_2_mode <= 4));
-  
-  assume((stateful_alu_1_0_opcode >= 0) && (stateful_alu_1_0_opcode <= 2));
-  
-  assume((stateful_alu_1_0_immediate >= 0) && (stateful_alu_1_0_immediate <= 4));
-  
-  assume((stateful_alu_1_0_mode >= 0) && (stateful_alu_1_0_mode <= 2));
-  
-  assume((stateful_alu_1_1_opcode >= 0) && (stateful_alu_1_1_opcode <= 2));
-  
-  assume((stateful_alu_1_1_immediate >= 0) && (stateful_alu_1_1_immediate <= 4));
-  
-  assume((stateful_alu_1_1_mode >= 0) && (stateful_alu_1_1_mode <= 2));
-  
-  assume((stateless_alu_2_0_mux1_ctrl >= 0) && (stateless_alu_2_0_mux1_ctrl <= 4));
-  
-  assume((stateless_alu_2_0_mux2_ctrl >= 0) && (stateless_alu_2_0_mux2_ctrl <= 4));
-  
-  assume((stateless_alu_2_0_opcode >= 0) && (stateless_alu_2_0_opcode <= 2));
-  
-  assume((stateless_alu_2_0_immediate >= 0) && (stateless_alu_2_0_immediate <= 4));
-  
-  assume((stateless_alu_2_0_mode >= 0) && (stateless_alu_2_0_mode <= 4));
-  
-  assume((stateless_alu_2_1_mux1_ctrl >= 0) && (stateless_alu_2_1_mux1_ctrl <= 4));
-  
-  assume((stateless_alu_2_1_mux2_ctrl >= 0) && (stateless_alu_2_1_mux2_ctrl <= 4));
-  
-  assume((stateless_alu_2_1_opcode >= 0) && (stateless_alu_2_1_opcode <= 2));
-  
-  assume((stateless_alu_2_1_immediate >= 0) && (stateless_alu_2_1_immediate <= 4));
-  
-  assume((stateless_alu_2_1_mode >= 0) && (stateless_alu_2_1_mode <= 4));
-  
-  assume((stateless_alu_2_2_mux1_ctrl >= 0) && (stateless_alu_2_2_mux1_ctrl <= 4));
-  
-  assume((stateless_alu_2_2_mux2_ctrl >= 0) && (stateless_alu_2_2_mux2_ctrl <= 4));
-  
-  assume((stateless_alu_2_2_opcode >= 0) && (stateless_alu_2_2_opcode <= 2));
-  
-  assume((stateless_alu_2_2_immediate >= 0) && (stateless_alu_2_2_immediate <= 4));
-  
-  assume((stateless_alu_2_2_mode >= 0) && (stateless_alu_2_2_mode <= 4));
-  
-  assume((stateful_alu_2_0_opcode >= 0) && (stateful_alu_2_0_opcode <= 2));
-  
-  assume((stateful_alu_2_0_immediate >= 0) && (stateful_alu_2_0_immediate <= 4));
-  
-  assume((stateful_alu_2_0_mode >= 0) && (stateful_alu_2_0_mode <= 2));
-  
-  assume((stateful_alu_2_1_opcode >= 0) && (stateful_alu_2_1_opcode <= 2));
-  
-  assume((stateful_alu_2_1_immediate >= 0) && (stateful_alu_2_1_immediate <= 4));
-  
-  assume((stateful_alu_2_1_mode >= 0) && (stateful_alu_2_1_mode <= 2));
-  
   assume((salu_config_0_0 >= 0) && (salu_config_0_0 <= 2));
-  
-  assume((salu_config_0_1 >= 0) && (salu_config_0_1 <= 2));
-  
-  assume((salu_config_1_0 >= 0) && (salu_config_1_0 <= 2));
-  
-  assume((salu_config_1_1 >= 0) && (salu_config_1_1 <= 2));
-  
-  assume((salu_config_2_0 >= 0) && (salu_config_2_0 <= 2));
-  
-  assume((salu_config_2_1 >= 0) && (salu_config_2_1 <= 2));
   
 
   
-  assume(stateful_operand_mux_0_0_ctrl < 3);
+  assume(stateful_operand_mux_0_0_ctrl < 2);
   
-  assume(stateful_operand_mux_0_1_ctrl < 3);
+  assume(output_mux_phv_0_0_ctrl < 2);
   
-  assume(stateful_operand_mux_1_0_ctrl < 3);
+  assume(output_mux_phv_0_1_ctrl < 2);
   
-  assume(stateful_operand_mux_1_1_ctrl < 3);
+  assume(stateless_alu_0_0_mux1_ctrl < 2);
   
-  assume(stateful_operand_mux_2_0_ctrl < 3);
-  
-  assume(stateful_operand_mux_2_1_ctrl < 3);
-  
-  assume(output_mux_phv_0_0_ctrl < 3);
-  
-  assume(output_mux_phv_0_1_ctrl < 3);
-  
-  assume(output_mux_phv_0_2_ctrl < 3);
-  
-  assume(output_mux_phv_1_0_ctrl < 3);
-  
-  assume(output_mux_phv_1_1_ctrl < 3);
-  
-  assume(output_mux_phv_1_2_ctrl < 3);
-  
-  assume(output_mux_phv_2_0_ctrl < 3);
-  
-  assume(output_mux_phv_2_1_ctrl < 3);
-  
-  assume(output_mux_phv_2_2_ctrl < 3);
-  
-  assume(stateless_alu_0_0_mux1_ctrl < 3);
-  
-  assume(stateless_alu_0_0_mux2_ctrl < 3);
+  assume(stateless_alu_0_0_mux2_ctrl < 2);
   
   assume(stateless_alu_0_0_mux1_ctrl <= stateless_alu_0_0_mux2_ctrl);
   
   assume(stateless_alu_0_0_mode < 3);
   
-  assume(stateless_alu_0_1_mux1_ctrl < 3);
+  assume(stateless_alu_0_1_mux1_ctrl < 2);
   
-  assume(stateless_alu_0_1_mux2_ctrl < 3);
+  assume(stateless_alu_0_1_mux2_ctrl < 2);
   
   assume(stateless_alu_0_1_mux1_ctrl <= stateless_alu_0_1_mux2_ctrl);
   
   assume(stateless_alu_0_1_mode < 3);
   
-  assume(stateless_alu_0_2_mux1_ctrl < 3);
+  assume((salu_config_0_0 + 0) <= 2);
   
-  assume(stateless_alu_0_2_mux2_ctrl < 3);
-  
-  assume(stateless_alu_0_2_mux1_ctrl <= stateless_alu_0_2_mux2_ctrl);
-  
-  assume(stateless_alu_0_2_mode < 3);
-  
-  assume(stateless_alu_1_0_mux1_ctrl < 3);
-  
-  assume(stateless_alu_1_0_mux2_ctrl < 3);
-  
-  assume(stateless_alu_1_0_mux1_ctrl <= stateless_alu_1_0_mux2_ctrl);
-  
-  assume(stateless_alu_1_0_mode < 3);
-  
-  assume(stateless_alu_1_1_mux1_ctrl < 3);
-  
-  assume(stateless_alu_1_1_mux2_ctrl < 3);
-  
-  assume(stateless_alu_1_1_mux1_ctrl <= stateless_alu_1_1_mux2_ctrl);
-  
-  assume(stateless_alu_1_1_mode < 3);
-  
-  assume(stateless_alu_1_2_mux1_ctrl < 3);
-  
-  assume(stateless_alu_1_2_mux2_ctrl < 3);
-  
-  assume(stateless_alu_1_2_mux1_ctrl <= stateless_alu_1_2_mux2_ctrl);
-  
-  assume(stateless_alu_1_2_mode < 3);
-  
-  assume(stateless_alu_2_0_mux1_ctrl < 3);
-  
-  assume(stateless_alu_2_0_mux2_ctrl < 3);
-  
-  assume(stateless_alu_2_0_mux1_ctrl <= stateless_alu_2_0_mux2_ctrl);
-  
-  assume(stateless_alu_2_0_mode < 3);
-  
-  assume(stateless_alu_2_1_mux1_ctrl < 3);
-  
-  assume(stateless_alu_2_1_mux2_ctrl < 3);
-  
-  assume(stateless_alu_2_1_mux1_ctrl <= stateless_alu_2_1_mux2_ctrl);
-  
-  assume(stateless_alu_2_1_mode < 3);
-  
-  assume(stateless_alu_2_2_mux1_ctrl < 3);
-  
-  assume(stateless_alu_2_2_mux2_ctrl < 3);
-  
-  assume(stateless_alu_2_2_mux1_ctrl <= stateless_alu_2_2_mux2_ctrl);
-  
-  assume(stateless_alu_2_2_mode < 3);
-  
-  assume((salu_config_0_0 + salu_config_0_1 + 0) <= 3);
-  
-  assume((salu_config_1_0 + salu_config_1_1 + 0) <= 3);
-  
-  assume((salu_config_2_0 + salu_config_2_1 + 0) <= 3);
-  
-  assume((salu_config_0_0 + salu_config_1_0 + salu_config_2_0 + 0) <= 1);
-  
-  assume((salu_config_0_1 + salu_config_1_1 + salu_config_2_1 + 0) <= 1);
+  assume((salu_config_0_0 + 0) <= 1);
   
 
   // Transformation from sketch 1's holes to sketch 2's holes
@@ -327,54 +95,24 @@ harness void main(
   
     state_and_packet.pkt_0 = sanp_pkt_0;
   
-    state_and_packet.pkt_1 = sanp_pkt_1;
-  
-    state_and_packet.pkt_2 = sanp_pkt_2;
-  
   
     state_and_packet.state_0 = sanp_state_0;
   
-    state_and_packet.state_1 = sanp_state_1;
-  
 
-//  assert(pipeline@before(state_and_packet, stateful_operand_mux_0_0_ctrl,stateful_operand_mux_0_1_ctrl,stateful_operand_mux_1_0_ctrl,stateful_operand_mux_1_1_ctrl,stateful_operand_mux_2_0_ctrl,stateful_operand_mux_2_1_ctrl,output_mux_phv_0_0_ctrl,output_mux_phv_0_1_ctrl,output_mux_phv_0_2_ctrl,output_mux_phv_1_0_ctrl,output_mux_phv_1_1_ctrl,output_mux_phv_1_2_ctrl,output_mux_phv_2_0_ctrl,output_mux_phv_2_1_ctrl,output_mux_phv_2_2_ctrl,stateless_alu_0_0_mux1_ctrl,stateless_alu_0_0_mux2_ctrl,stateless_alu_0_0_opcode,stateless_alu_0_0_immediate,stateless_alu_0_0_mode,stateless_alu_0_1_mux1_ctrl,stateless_alu_0_1_mux2_ctrl,stateless_alu_0_1_opcode,stateless_alu_0_1_immediate,stateless_alu_0_1_mode,stateless_alu_0_2_mux1_ctrl,stateless_alu_0_2_mux2_ctrl,stateless_alu_0_2_opcode,stateless_alu_0_2_immediate,stateless_alu_0_2_mode,stateful_alu_0_0_opcode,stateful_alu_0_0_immediate,stateful_alu_0_0_mode,stateful_alu_0_1_opcode,stateful_alu_0_1_immediate,stateful_alu_0_1_mode,stateless_alu_1_0_mux1_ctrl,stateless_alu_1_0_mux2_ctrl,stateless_alu_1_0_opcode,stateless_alu_1_0_immediate,stateless_alu_1_0_mode,stateless_alu_1_1_mux1_ctrl,stateless_alu_1_1_mux2_ctrl,stateless_alu_1_1_opcode,stateless_alu_1_1_immediate,stateless_alu_1_1_mode,stateless_alu_1_2_mux1_ctrl,stateless_alu_1_2_mux2_ctrl,stateless_alu_1_2_opcode,stateless_alu_1_2_immediate,stateless_alu_1_2_mode,stateful_alu_1_0_opcode,stateful_alu_1_0_immediate,stateful_alu_1_0_mode,stateful_alu_1_1_opcode,stateful_alu_1_1_immediate,stateful_alu_1_1_mode,stateless_alu_2_0_mux1_ctrl,stateless_alu_2_0_mux2_ctrl,stateless_alu_2_0_opcode,stateless_alu_2_0_immediate,stateless_alu_2_0_mode,stateless_alu_2_1_mux1_ctrl,stateless_alu_2_1_mux2_ctrl,stateless_alu_2_1_opcode,stateless_alu_2_1_immediate,stateless_alu_2_1_mode,stateless_alu_2_2_mux1_ctrl,stateless_alu_2_2_mux2_ctrl,stateless_alu_2_2_opcode,stateless_alu_2_2_immediate,stateless_alu_2_2_mode,stateful_alu_2_0_opcode,stateful_alu_2_0_immediate,stateful_alu_2_0_mode,stateful_alu_2_1_opcode,stateful_alu_2_1_immediate,stateful_alu_2_1_mode,salu_config_0_0,salu_config_0_1,salu_config_1_0,salu_config_1_1,salu_config_2_0,salu_config_2_1) == pipeline@after(state_and_packet, stateful_operand_mux_0_0_ctrl,stateful_operand_mux_0_1_ctrl,stateful_operand_mux_1_0_ctrl,stateful_operand_mux_1_1_ctrl,stateful_operand_mux_2_0_ctrl,stateful_operand_mux_2_1_ctrl,output_mux_phv_0_0_ctrl,output_mux_phv_0_1_ctrl,output_mux_phv_0_2_ctrl,output_mux_phv_1_0_ctrl,output_mux_phv_1_1_ctrl,output_mux_phv_1_2_ctrl,output_mux_phv_2_0_ctrl,output_mux_phv_2_1_ctrl,output_mux_phv_2_2_ctrl,stateless_alu_0_0_mux1_ctrl,stateless_alu_0_0_mux2_ctrl,stateless_alu_0_0_opcode,stateless_alu_0_0_immediate,stateless_alu_0_0_mode,stateless_alu_0_1_mux1_ctrl,stateless_alu_0_1_mux2_ctrl,stateless_alu_0_1_opcode,stateless_alu_0_1_immediate,stateless_alu_0_1_mode,stateless_alu_0_2_mux1_ctrl,stateless_alu_0_2_mux2_ctrl,stateless_alu_0_2_opcode,stateless_alu_0_2_immediate,stateless_alu_0_2_mode,stateful_alu_0_0_opcode,stateful_alu_0_0_immediate,stateful_alu_0_0_mode,stateful_alu_0_1_opcode,stateful_alu_0_1_immediate,stateful_alu_0_1_mode,stateless_alu_1_0_mux1_ctrl,stateless_alu_1_0_mux2_ctrl,stateless_alu_1_0_opcode,stateless_alu_1_0_immediate,stateless_alu_1_0_mode,stateless_alu_1_1_mux1_ctrl,stateless_alu_1_1_mux2_ctrl,stateless_alu_1_1_opcode,stateless_alu_1_1_immediate,stateless_alu_1_1_mode,stateless_alu_1_2_mux1_ctrl,stateless_alu_1_2_mux2_ctrl,stateless_alu_1_2_opcode,stateless_alu_1_2_immediate,stateless_alu_1_2_mode,stateful_alu_1_0_opcode,stateful_alu_1_0_immediate,stateful_alu_1_0_mode,stateful_alu_1_1_opcode,stateful_alu_1_1_immediate,stateful_alu_1_1_mode,stateless_alu_2_0_mux1_ctrl,stateless_alu_2_0_mux2_ctrl,stateless_alu_2_0_opcode,stateless_alu_2_0_immediate,stateless_alu_2_0_mode,stateless_alu_2_1_mux1_ctrl,stateless_alu_2_1_mux2_ctrl,stateless_alu_2_1_opcode,stateless_alu_2_1_immediate,stateless_alu_2_1_mode,stateless_alu_2_2_mux1_ctrl,stateless_alu_2_2_mux2_ctrl,stateless_alu_2_2_opcode,stateless_alu_2_2_immediate,stateless_alu_2_2_mode,stateful_alu_2_0_opcode,stateful_alu_2_0_immediate,stateful_alu_2_0_mode,stateful_alu_2_1_opcode,stateful_alu_2_1_immediate,stateful_alu_2_1_mode,salu_config_0_0,salu_config_0_1,salu_config_1_0,salu_config_1_1,salu_config_2_0,salu_config_2_1));
+  assert(pipeline@before(state_and_packet, stateful_operand_mux_0_0_ctrl,output_mux_phv_0_0_ctrl,output_mux_phv_0_1_ctrl,stateless_alu_0_0_mux1_ctrl,stateless_alu_0_0_mux2_ctrl,stateless_alu_0_0_opcode,stateless_alu_0_0_immediate,stateless_alu_0_0_mode,stateless_alu_0_1_mux1_ctrl,stateless_alu_0_1_mux2_ctrl,stateless_alu_0_1_opcode,stateless_alu_0_1_immediate,stateless_alu_0_1_mode,stateful_alu_0_0_opcode,stateful_alu_0_0_immediate,stateful_alu_0_0_mode,salu_config_0_0) == pipeline@after(state_and_packet, stateful_operand_mux_0_0_ctrl,output_mux_phv_0_0_ctrl,output_mux_phv_0_1_ctrl,stateless_alu_0_0_mux1_ctrl,stateless_alu_0_0_mux2_ctrl,stateless_alu_0_0_opcode,stateless_alu_0_0_immediate,stateless_alu_0_0_mode,stateless_alu_0_1_mux1_ctrl,stateless_alu_0_1_mux2_ctrl,stateless_alu_0_1_opcode,stateless_alu_0_1_immediate,stateless_alu_0_1_mode,stateful_alu_0_0_opcode,stateful_alu_0_0_immediate,stateful_alu_0_0_mode,salu_config_0_0));
 
   // Postconditions:
 
   
-  assert((stateful_operand_mux_0_0_ctrl >= 0) && (stateful_operand_mux_0_0_ctrl <= 4));
+  assert((stateful_operand_mux_0_0_ctrl >= 0) && (stateful_operand_mux_0_0_ctrl <= 2));
   
-  assert((stateful_operand_mux_0_1_ctrl >= 0) && (stateful_operand_mux_0_1_ctrl <= 4));
+  assert((output_mux_phv_0_0_ctrl >= 0) && (output_mux_phv_0_0_ctrl <= 2));
   
-  assert((stateful_operand_mux_1_0_ctrl >= 0) && (stateful_operand_mux_1_0_ctrl <= 4));
+  assert((output_mux_phv_0_1_ctrl >= 0) && (output_mux_phv_0_1_ctrl <= 2));
   
-  assert((stateful_operand_mux_1_1_ctrl >= 0) && (stateful_operand_mux_1_1_ctrl <= 4));
+  assert((stateless_alu_0_0_mux1_ctrl >= 0) && (stateless_alu_0_0_mux1_ctrl <= 2));
   
-  assert((stateful_operand_mux_2_0_ctrl >= 0) && (stateful_operand_mux_2_0_ctrl <= 4));
-  
-  assert((stateful_operand_mux_2_1_ctrl >= 0) && (stateful_operand_mux_2_1_ctrl <= 4));
-  
-  assert((output_mux_phv_0_0_ctrl >= 0) && (output_mux_phv_0_0_ctrl <= 4));
-  
-  assert((output_mux_phv_0_1_ctrl >= 0) && (output_mux_phv_0_1_ctrl <= 4));
-  
-  assert((output_mux_phv_0_2_ctrl >= 0) && (output_mux_phv_0_2_ctrl <= 4));
-  
-  assert((output_mux_phv_1_0_ctrl >= 0) && (output_mux_phv_1_0_ctrl <= 4));
-  
-  assert((output_mux_phv_1_1_ctrl >= 0) && (output_mux_phv_1_1_ctrl <= 4));
-  
-  assert((output_mux_phv_1_2_ctrl >= 0) && (output_mux_phv_1_2_ctrl <= 4));
-  
-  assert((output_mux_phv_2_0_ctrl >= 0) && (output_mux_phv_2_0_ctrl <= 4));
-  
-  assert((output_mux_phv_2_1_ctrl >= 0) && (output_mux_phv_2_1_ctrl <= 4));
-  
-  assert((output_mux_phv_2_2_ctrl >= 0) && (output_mux_phv_2_2_ctrl <= 4));
-  
-  assert((stateless_alu_0_0_mux1_ctrl >= 0) && (stateless_alu_0_0_mux1_ctrl <= 4));
-  
-  assert((stateless_alu_0_0_mux2_ctrl >= 0) && (stateless_alu_0_0_mux2_ctrl <= 4));
+  assert((stateless_alu_0_0_mux2_ctrl >= 0) && (stateless_alu_0_0_mux2_ctrl <= 2));
   
   assert((stateless_alu_0_0_opcode >= 0) && (stateless_alu_0_0_opcode <= 2));
   
@@ -382,9 +120,9 @@ harness void main(
   
   assert((stateless_alu_0_0_mode >= 0) && (stateless_alu_0_0_mode <= 4));
   
-  assert((stateless_alu_0_1_mux1_ctrl >= 0) && (stateless_alu_0_1_mux1_ctrl <= 4));
+  assert((stateless_alu_0_1_mux1_ctrl >= 0) && (stateless_alu_0_1_mux1_ctrl <= 2));
   
-  assert((stateless_alu_0_1_mux2_ctrl >= 0) && (stateless_alu_0_1_mux2_ctrl <= 4));
+  assert((stateless_alu_0_1_mux2_ctrl >= 0) && (stateless_alu_0_1_mux2_ctrl <= 2));
   
   assert((stateless_alu_0_1_opcode >= 0) && (stateless_alu_0_1_opcode <= 2));
   
@@ -392,236 +130,40 @@ harness void main(
   
   assert((stateless_alu_0_1_mode >= 0) && (stateless_alu_0_1_mode <= 4));
   
-  assert((stateless_alu_0_2_mux1_ctrl >= 0) && (stateless_alu_0_2_mux1_ctrl <= 4));
-  
-  assert((stateless_alu_0_2_mux2_ctrl >= 0) && (stateless_alu_0_2_mux2_ctrl <= 4));
-  
-  assert((stateless_alu_0_2_opcode >= 0) && (stateless_alu_0_2_opcode <= 2));
-  
-  assert((stateless_alu_0_2_immediate >= 0) && (stateless_alu_0_2_immediate <= 4));
-  
-  assert((stateless_alu_0_2_mode >= 0) && (stateless_alu_0_2_mode <= 4));
-  
   assert((stateful_alu_0_0_opcode >= 0) && (stateful_alu_0_0_opcode <= 2));
   
   assert((stateful_alu_0_0_immediate >= 0) && (stateful_alu_0_0_immediate <= 4));
   
   assert((stateful_alu_0_0_mode >= 0) && (stateful_alu_0_0_mode <= 2));
   
-  assert((stateful_alu_0_1_opcode >= 0) && (stateful_alu_0_1_opcode <= 2));
-  
-  assert((stateful_alu_0_1_immediate >= 0) && (stateful_alu_0_1_immediate <= 4));
-  
-  assert((stateful_alu_0_1_mode >= 0) && (stateful_alu_0_1_mode <= 2));
-  
-  assert((stateless_alu_1_0_mux1_ctrl >= 0) && (stateless_alu_1_0_mux1_ctrl <= 4));
-  
-  assert((stateless_alu_1_0_mux2_ctrl >= 0) && (stateless_alu_1_0_mux2_ctrl <= 4));
-  
-  assert((stateless_alu_1_0_opcode >= 0) && (stateless_alu_1_0_opcode <= 2));
-  
-  assert((stateless_alu_1_0_immediate >= 0) && (stateless_alu_1_0_immediate <= 4));
-  
-  assert((stateless_alu_1_0_mode >= 0) && (stateless_alu_1_0_mode <= 4));
-  
-  assert((stateless_alu_1_1_mux1_ctrl >= 0) && (stateless_alu_1_1_mux1_ctrl <= 4));
-  
-  assert((stateless_alu_1_1_mux2_ctrl >= 0) && (stateless_alu_1_1_mux2_ctrl <= 4));
-  
-  assert((stateless_alu_1_1_opcode >= 0) && (stateless_alu_1_1_opcode <= 2));
-  
-  assert((stateless_alu_1_1_immediate >= 0) && (stateless_alu_1_1_immediate <= 4));
-  
-  assert((stateless_alu_1_1_mode >= 0) && (stateless_alu_1_1_mode <= 4));
-  
-  assert((stateless_alu_1_2_mux1_ctrl >= 0) && (stateless_alu_1_2_mux1_ctrl <= 4));
-  
-  assert((stateless_alu_1_2_mux2_ctrl >= 0) && (stateless_alu_1_2_mux2_ctrl <= 4));
-  
-  assert((stateless_alu_1_2_opcode >= 0) && (stateless_alu_1_2_opcode <= 2));
-  
-  assert((stateless_alu_1_2_immediate >= 0) && (stateless_alu_1_2_immediate <= 4));
-  
-  assert((stateless_alu_1_2_mode >= 0) && (stateless_alu_1_2_mode <= 4));
-  
-  assert((stateful_alu_1_0_opcode >= 0) && (stateful_alu_1_0_opcode <= 2));
-  
-  assert((stateful_alu_1_0_immediate >= 0) && (stateful_alu_1_0_immediate <= 4));
-  
-  assert((stateful_alu_1_0_mode >= 0) && (stateful_alu_1_0_mode <= 2));
-  
-  assert((stateful_alu_1_1_opcode >= 0) && (stateful_alu_1_1_opcode <= 2));
-  
-  assert((stateful_alu_1_1_immediate >= 0) && (stateful_alu_1_1_immediate <= 4));
-  
-  assert((stateful_alu_1_1_mode >= 0) && (stateful_alu_1_1_mode <= 2));
-  
-  assert((stateless_alu_2_0_mux1_ctrl >= 0) && (stateless_alu_2_0_mux1_ctrl <= 4));
-  
-  assert((stateless_alu_2_0_mux2_ctrl >= 0) && (stateless_alu_2_0_mux2_ctrl <= 4));
-  
-  assert((stateless_alu_2_0_opcode >= 0) && (stateless_alu_2_0_opcode <= 2));
-  
-  assert((stateless_alu_2_0_immediate >= 0) && (stateless_alu_2_0_immediate <= 4));
-  
-  assert((stateless_alu_2_0_mode >= 0) && (stateless_alu_2_0_mode <= 4));
-  
-  assert((stateless_alu_2_1_mux1_ctrl >= 0) && (stateless_alu_2_1_mux1_ctrl <= 4));
-  
-  assert((stateless_alu_2_1_mux2_ctrl >= 0) && (stateless_alu_2_1_mux2_ctrl <= 4));
-  
-  assert((stateless_alu_2_1_opcode >= 0) && (stateless_alu_2_1_opcode <= 2));
-  
-  assert((stateless_alu_2_1_immediate >= 0) && (stateless_alu_2_1_immediate <= 4));
-  
-  assert((stateless_alu_2_1_mode >= 0) && (stateless_alu_2_1_mode <= 4));
-  
-  assert((stateless_alu_2_2_mux1_ctrl >= 0) && (stateless_alu_2_2_mux1_ctrl <= 4));
-  
-  assert((stateless_alu_2_2_mux2_ctrl >= 0) && (stateless_alu_2_2_mux2_ctrl <= 4));
-  
-  assert((stateless_alu_2_2_opcode >= 0) && (stateless_alu_2_2_opcode <= 2));
-  
-  assert((stateless_alu_2_2_immediate >= 0) && (stateless_alu_2_2_immediate <= 4));
-  
-  assert((stateless_alu_2_2_mode >= 0) && (stateless_alu_2_2_mode <= 4));
-  
-  assert((stateful_alu_2_0_opcode >= 0) && (stateful_alu_2_0_opcode <= 2));
-  
-  assert((stateful_alu_2_0_immediate >= 0) && (stateful_alu_2_0_immediate <= 4));
-  
-  assert((stateful_alu_2_0_mode >= 0) && (stateful_alu_2_0_mode <= 2));
-  
-  assert((stateful_alu_2_1_opcode >= 0) && (stateful_alu_2_1_opcode <= 2));
-  
-  assert((stateful_alu_2_1_immediate >= 0) && (stateful_alu_2_1_immediate <= 4));
-  
-  assert((stateful_alu_2_1_mode >= 0) && (stateful_alu_2_1_mode <= 2));
-  
   assert((salu_config_0_0 >= 0) && (salu_config_0_0 <= 2));
-  
-  assert((salu_config_0_1 >= 0) && (salu_config_0_1 <= 2));
-  
-  assert((salu_config_1_0 >= 0) && (salu_config_1_0 <= 2));
-  
-  assert((salu_config_1_1 >= 0) && (salu_config_1_1 <= 2));
-  
-  assert((salu_config_2_0 >= 0) && (salu_config_2_0 <= 2));
-  
-  assert((salu_config_2_1 >= 0) && (salu_config_2_1 <= 2));
   
 
   
-  assert(stateful_operand_mux_0_0_ctrl < 3);
+  assert(stateful_operand_mux_0_0_ctrl < 2);
   
-  assert(stateful_operand_mux_0_1_ctrl < 3);
+  assert(output_mux_phv_0_0_ctrl < 2);
   
-  assert(stateful_operand_mux_1_0_ctrl < 3);
+  assert(output_mux_phv_0_1_ctrl < 2);
   
-  assert(stateful_operand_mux_1_1_ctrl < 3);
+  assert(stateless_alu_0_0_mux1_ctrl < 2);
   
-  assert(stateful_operand_mux_2_0_ctrl < 3);
-  
-  assert(stateful_operand_mux_2_1_ctrl < 3);
-  
-  assert(output_mux_phv_0_0_ctrl < 3);
-  
-  assert(output_mux_phv_0_1_ctrl < 3);
-  
-  assert(output_mux_phv_0_2_ctrl < 3);
-  
-  assert(output_mux_phv_1_0_ctrl < 3);
-  
-  assert(output_mux_phv_1_1_ctrl < 3);
-  
-  assert(output_mux_phv_1_2_ctrl < 3);
-  
-  assert(output_mux_phv_2_0_ctrl < 3);
-  
-  assert(output_mux_phv_2_1_ctrl < 3);
-  
-  assert(output_mux_phv_2_2_ctrl < 3);
-  
-  assert(stateless_alu_0_0_mux1_ctrl < 3);
-  
-  assert(stateless_alu_0_0_mux2_ctrl < 3);
+  assert(stateless_alu_0_0_mux2_ctrl < 2);
   
   assert(stateless_alu_0_0_mux1_ctrl <= stateless_alu_0_0_mux2_ctrl);
   
   assert(stateless_alu_0_0_mode < 3);
   
-  assert(stateless_alu_0_1_mux1_ctrl < 3);
+  assert(stateless_alu_0_1_mux1_ctrl < 2);
   
-  assert(stateless_alu_0_1_mux2_ctrl < 3);
+  assert(stateless_alu_0_1_mux2_ctrl < 2);
   
   assert(stateless_alu_0_1_mux1_ctrl <= stateless_alu_0_1_mux2_ctrl);
   
   assert(stateless_alu_0_1_mode < 3);
   
-  assert(stateless_alu_0_2_mux1_ctrl < 3);
+  assert((salu_config_0_0 + 0) <= 2);
   
-  assert(stateless_alu_0_2_mux2_ctrl < 3);
-  
-  assert(stateless_alu_0_2_mux1_ctrl <= stateless_alu_0_2_mux2_ctrl);
-  
-  assert(stateless_alu_0_2_mode < 3);
-  
-  assert(stateless_alu_1_0_mux1_ctrl < 3);
-  
-  assert(stateless_alu_1_0_mux2_ctrl < 3);
-  
-  assert(stateless_alu_1_0_mux1_ctrl <= stateless_alu_1_0_mux2_ctrl);
-  
-  assert(stateless_alu_1_0_mode < 3);
-  
-  assert(stateless_alu_1_1_mux1_ctrl < 3);
-  
-  assert(stateless_alu_1_1_mux2_ctrl < 3);
-  
-  assert(stateless_alu_1_1_mux1_ctrl <= stateless_alu_1_1_mux2_ctrl);
-  
-  assert(stateless_alu_1_1_mode < 3);
-  
-  assert(stateless_alu_1_2_mux1_ctrl < 3);
-  
-  assert(stateless_alu_1_2_mux2_ctrl < 3);
-  
-  assert(stateless_alu_1_2_mux1_ctrl <= stateless_alu_1_2_mux2_ctrl);
-  
-  assert(stateless_alu_1_2_mode < 3);
-  
-  assert(stateless_alu_2_0_mux1_ctrl < 3);
-  
-  assert(stateless_alu_2_0_mux2_ctrl < 3);
-  
-  assert(stateless_alu_2_0_mux1_ctrl <= stateless_alu_2_0_mux2_ctrl);
-  
-  assert(stateless_alu_2_0_mode < 3);
-  
-  assert(stateless_alu_2_1_mux1_ctrl < 3);
-  
-  assert(stateless_alu_2_1_mux2_ctrl < 3);
-  
-  assert(stateless_alu_2_1_mux1_ctrl <= stateless_alu_2_1_mux2_ctrl);
-  
-  assert(stateless_alu_2_1_mode < 3);
-  
-  assert(stateless_alu_2_2_mux1_ctrl < 3);
-  
-  assert(stateless_alu_2_2_mux2_ctrl < 3);
-  
-  assert(stateless_alu_2_2_mux1_ctrl <= stateless_alu_2_2_mux2_ctrl);
-  
-  assert(stateless_alu_2_2_mode < 3);
-  
-  assert((salu_config_0_0 + salu_config_0_1 + 0) <= 3);
-  
-  assert((salu_config_1_0 + salu_config_1_1 + 0) <= 3);
-  
-  assert((salu_config_2_0 + salu_config_2_1 + 0) <= 3);
-  
-  assert((salu_config_0_0 + salu_config_1_0 + salu_config_2_0 + 0) <= 1);
-  
-  assert((salu_config_0_1 + salu_config_1_1 + salu_config_2_1 + 0) <= 1);
+  assert((salu_config_0_0 + 0) <= 1);
   
 }
