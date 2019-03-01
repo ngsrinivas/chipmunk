@@ -40,6 +40,7 @@ else:
     parallel_or_serial = str(sys.argv[7])
     assert ((parallel_or_serial == "parallel")
             or (parallel_or_serial == "serial"))
+    lex_opt_enabled="no"
 
 # Initialize jinja2 environment for templates
 env = Environment(
@@ -54,7 +55,8 @@ sketch_generator = SketchGenerator(
     num_state_vars=num_state_vars,
     num_fields_in_prog=num_fields_in_prog,
     jinja2_env=env,
-    alu_file=alu_file)
+    alu_file=alu_file,
+    lex_opt_enabled=lex_opt_enabled)
 
 # Create stateless and stateful ALUs, operand muxes for stateful ALUs, and output muxes.
 alu_definitions = sketch_generator.generate_alus()
