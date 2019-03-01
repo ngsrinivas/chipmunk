@@ -24,12 +24,12 @@
 
   // Inputs
   {% if stage_number == 0 %}
-  // Read each PHV container from corresponding packet field.
-  {% if lex_opt_enabled == "yes" %}
-    {% include "lexical_input_assignment.j2" %}
-  {% else %}
-    {% include "regular_input_assignment.j2" %}
-  {% endif %}
+    // Read each PHV container from corresponding packet field.
+    {% if lex_opt_enabled == "yes" %}
+      {% include "lexical_input_assignment.j2" %}
+    {% else %}
+      {% include "regular_input_assignment.j2" %}
+    {% endif %}
 
   {% else %}
   // Input of this stage is the output of the previous one.
@@ -113,10 +113,12 @@
 
   {% endfor %}
 
-  {% for field_number in range(num_fields_in_prog) %}
-  // Write pkt_{{field_number}}
-  state_and_packet.pkt_{{field_number}} = output_{{num_pipeline_stages - 1}}_{{field_number}};
-  {% endfor %}
+  // Copy output PHV containers to fields
+  {% if lex_opt_enabled == "yes" %}
+    {% include "lexical_output_assignment.j2" %}
+  {% else %}
+    {% include "regular_output_assignment.j2" %}
+  {% endif %}
 
   // Return updated packet fields and state vars
   return state_and_packet;
