@@ -1,4 +1,1 @@
-  {% for field_number in range(num_fields_in_prog) %}
-  // Write pkt_{{field_number}}
-  state_and_packet.pkt_{{field_number}} = output_{{num_pipeline_stages - 1}}_{{field_number}};
-  {% endfor %}
+  {{phv_to_field_mappings}}

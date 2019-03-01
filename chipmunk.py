@@ -63,10 +63,9 @@ alu_definitions = sketch_generator.generate_alus()
 stateful_operand_mux_definitions = sketch_generator.generate_stateful_operand_muxes(
 )
 output_mux_definitions = sketch_generator.generate_output_muxes()
+field_to_phv_mappings, phv_to_field_mappings = "", ""
 if lex_opt_enabled == "no":
-    phv_to_field_mappings = sketch_generator.generate_phv_config()
-    print(phv_to_field_mappings[0])
-    print(phv_to_field_mappings[1])
+    field_to_phv_mappings, phv_to_field_mappings = sketch_generator.generate_phv_config()
 
 # Create allocator to ensure each state var is assigned to exactly stateful ALU and vice versa.
 sketch_generator.generate_state_allocator()
@@ -78,7 +77,9 @@ if (mode == "codegen"):
         alu_definitions=alu_definitions,
         stateful_operand_mux_definitions=stateful_operand_mux_definitions,
         mode=mode,
-        output_mux_definitions=output_mux_definitions)
+        output_mux_definitions=output_mux_definitions,
+        field_to_phv_mappings=field_to_phv_mappings,
+        phv_to_field_mappings=phv_to_field_mappings)
 
     # Create file and write sketch_harness into it.
     sketch_file = open(sketch_name + "_codegen.sk", "w")
