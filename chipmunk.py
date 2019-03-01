@@ -40,7 +40,7 @@ else:
     parallel_or_serial = str(sys.argv[7])
     assert ((parallel_or_serial == "parallel")
             or (parallel_or_serial == "serial"))
-    lex_opt_enabled="no"
+    lex_opt_enabled = "no"
 
 # Initialize jinja2 environment for templates
 env = Environment(
@@ -63,6 +63,10 @@ alu_definitions = sketch_generator.generate_alus()
 stateful_operand_mux_definitions = sketch_generator.generate_stateful_operand_muxes(
 )
 output_mux_definitions = sketch_generator.generate_output_muxes()
+if lex_opt_enabled == "no":
+    phv_to_field_mappings = sketch_generator.generate_phv_config()
+    print(phv_to_field_mappings[0])
+    print(phv_to_field_mappings[1])
 
 # Create allocator to ensure each state var is assigned to exactly stateful ALU and vice versa.
 sketch_generator.generate_state_allocator()
