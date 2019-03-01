@@ -13,13 +13,15 @@ from utils import get_num_pkt_fields_and_state_groups
 
 class Compiler:
     def __init__(self, program_file, alu_file, num_pipeline_stages,
-                 num_alus_per_stage, sketch_name, parallel_or_serial):
+                 num_alus_per_stage, sketch_name, parallel_or_serial,
+                 lex_opt_enabled):
         self.program_file = program_file
         self.alu_file = alu_file
         self.num_pipeline_stages = num_pipeline_stages
         self.num_alus_per_stage = num_alus_per_stage
         self.sketch_name = sketch_name
         self.parallel_or_serial = parallel_or_serial
+        self.lex_opt_enabled = lex_opt_enabled
 
         (self.num_fields_in_prog,
          self.num_state_groups) = get_num_pkt_fields_and_state_groups(
@@ -39,7 +41,8 @@ class Compiler:
             num_state_groups=self.num_state_groups,
             num_fields_in_prog=self.num_fields_in_prog,
             jinja2_env=self.jinja2_env,
-            alu_file=alu_file)
+            alu_file=alu_file,
+            lex_opt_enabled=lex_opt_enabled)
 
         # Create stateless and stateful ALUs, operand muxes for stateful ALUs,
         # and output muxes.

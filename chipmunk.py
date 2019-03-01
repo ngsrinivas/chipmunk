@@ -24,9 +24,12 @@ def main(argv):
     sketch_name = str(argv[6])
     parallel_or_serial = str(argv[7])
     assert parallel_or_serial in ["parallel", "serial"]
+    #TODO: add lex_opt_enabled top-level option
+    lex_opt_enabled = "no"
 
     compiler = Compiler(program_file, alu_file, num_pipeline_stages,
-                        num_alus_per_stage, sketch_name, parallel_or_serial)
+                        num_alus_per_stage, sketch_name, parallel_or_serial,
+                        lex_opt_enabled)
 
     # Now fill the appropriate template holes using the components created using
     # sketch_generator

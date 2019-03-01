@@ -21,14 +21,17 @@
   {% endfor %}
 
   {% for stage_number in range(num_pipeline_stages) %}
+
     /*********** Stage {{stage_number}} *********/
 
     // Inputs
     {% if stage_number == 0 %}
       // Read each PHV container from corresponding packet field.
-      {% for field_number in range(num_fields_in_prog) %}
-        input_0_{{field_number}} = state_and_packet.pkt_{{field_number}};
-      {% endfor %}
+      {% if lex_opt_enabled == "yes" %}
+        {% include "lexical_input_assignment.j2" %}
+      {% else %}
+        {% include "regular_input_assignment.j2" %}
+      {% endif %}
 
     {% else %}
       // Input of this stage is the output of the previous one.
