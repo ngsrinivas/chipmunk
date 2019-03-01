@@ -23,7 +23,7 @@ def add_prefix_suffix(text, prefix_string, suffix_string):
 class SketchGenerator:
     def __init__(self, sketch_name, num_phv_containers, num_state_vars,
                  num_alus_per_stage, num_pipeline_stages, num_fields_in_prog,
-                 jinja2_env, alu_file):
+                 jinja2_env, alu_file, lex_opt_enabled):
         self.sketch_name_ = sketch_name
         self.total_hole_bits_ = 0
         self.hole_names_ = []
@@ -41,6 +41,7 @@ class SketchGenerator:
         self.jinja2_env_.filters["add_prefix_suffix"] = add_prefix_suffix
         self.alu_file_ = alu_file
         self.num_operands_to_stateful_alu_ = 0
+        self.lex_opt_enabled = lex_opt_enabled
 
     # Write all holes to a single hole string for ease of debugging
     def add_hole(self, hole_name, hole_bit_width):
@@ -212,4 +213,5 @@ class SketchGenerator:
             all_assertions=self.asserts_,
             hole_arguments=self.hole_arguments_,
             stateful_alu_hole_arguments=self.stateful_alu_hole_arguments_,
-            num_operands_to_stateful_alu=self.num_operands_to_stateful_alu_)
+            num_operands_to_stateful_alu=self.num_operands_to_stateful_alu_,
+            lex_opt_enabled=self.lex_opt_enabled)
