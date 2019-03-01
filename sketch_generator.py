@@ -190,6 +190,49 @@ class SketchGenerator:
                                                   "_" + str(l)) + "\n"
         return ret
 
+    def generate_phv_config(self):
+        # Generate PHV config for the case where there is no lexically ordered
+        # map between packet fields and PHV containers
+        for i in range(self.num_phv_containers_):
+            for j in range(self.num_fields_in_prog_):
+                self.add_hole(self.sketch_name_ + "_phv_config_" +
+                              str(i) + "_" + str(j), 1)
+        for i in range(self.num_phv_containers_):
+            assert_predicate = "("
+            for j in range(self.num_fields_in_prog_):
+                assert_predicate += self.sketch_name_ + "_phv_config_" + str(
+                    i) + "_" + str(j) + " + "
+            assert_predicate += "0) <= 1"
+            self.add_assert(assert_predicate)
+        for j in range(self.num_fields_in_prog_):
+            assert_predicate = "("
+            for i in range(self.num_phv_containers_):
+                assert_predicate += self.sketch_name_ + "_phv_config_" + str(
+                    i) + "_" + str(j) +  " + "
+            assert_predicate += "0) <= 1"
+            self.add_assert(assert_predicate)
+        in_ret  = ""
+        out_ret = ""
+        # Map the phvs to the fields based on the i-j boolean values
+        for i in range(self.num_phv_containers_):
+            for j in range(self.num_fields_in_prog_):
+                in_prefix  = "  else if("
+                if (j == 0):
+                    in_prefix  = "  if("
+                in_ret  += in_prefix + self.sketch_name_ + "_phv_config_" + str(
+                    i) + "_" + str(j) + " == 1) { input_0_" + str(
+                    i) + " = state_and_packet.pkt_" + str(j) + "; }\n"
+        for j in range(self.num_fields_in_prog_):
+            for i in range(self.num_phv_containers_):
+                out_prefix = "  else if("
+                if (i == 0):
+                    out_prefix = "  if("
+                out_ret += out_prefix + self.sketch_name_ + "_phv_config_" + str(
+                    i) + "_" + str(j) + " == 1) { state_and_packet.pkt_" + str(
+                    j) + " = output_" + str(self.num_pipeline_stages_ - 1
+                    ) + "_" + str(i) + "; }\n"
+        return (in_ret, out_ret)
+
     def generate_sketch(self, program_file, alu_definitions,
                         output_mux_definitions,
                         stateful_operand_mux_definitions, mode):
