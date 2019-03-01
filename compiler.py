@@ -51,6 +51,10 @@ class Compiler:
             self.sketch_generator.generate_stateful_operand_muxes())
         self.output_mux_definitions = (
             self.sketch_generator.generate_output_muxes())
+        if lex_opt_enabled == "no":
+            phv_to_field_mappings = self.sketch_generator.generate_phv_config()
+            print(phv_to_field_mappings[0])
+            print(phv_to_field_mappings[1])
 
         # Create allocator to ensure each state var is assigned to exactly
         # stateful ALU and vice versa.
