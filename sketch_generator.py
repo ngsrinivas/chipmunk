@@ -235,7 +235,8 @@ class SketchGenerator:
 
     def generate_sketch(self, program_file, alu_definitions,
                         output_mux_definitions,
-                        stateful_operand_mux_definitions, mode):
+                        stateful_operand_mux_definitions, mode,
+                        field_to_phv_mappings, phv_to_field_mappings):
         template = (self.jinja2_env_.get_template("code_generator.j2")
                     if mode == "codegen" else
                     self.jinja2_env_.get_template("sketch_functions.j2"))
@@ -257,4 +258,6 @@ class SketchGenerator:
             hole_arguments=self.hole_arguments_,
             stateful_alu_hole_arguments=self.stateful_alu_hole_arguments_,
             num_operands_to_stateful_alu=self.num_operands_to_stateful_alu_,
-            lex_opt_enabled=self.lex_opt_enabled)
+            lex_opt_enabled=self.lex_opt_enabled,
+            field_to_phv_mappings=field_to_phv_mappings,
+            phv_to_field_mappings=phv_to_field_mappings)
