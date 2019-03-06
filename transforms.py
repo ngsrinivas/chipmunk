@@ -4,11 +4,14 @@ class Transform:
     """ Base class defining a transformation from the holes of sketch1 to
     sketch2. """
     def __init__(self, sketch1_name, sketch2_name, num_pipeline_stages,
-                 num_alus_per_stage, sketch1_holes, sketch2_holes):
+                 num_alus_per_stage, num_fields_in_prog, num_phv_containers,
+                 sketch1_holes, sketch2_holes):
         self.sketch1_name = sketch1_name
         self.sketch2_name = sketch2_name
         self.num_pipeline_stages = num_pipeline_stages
         self.num_alus_per_stage  = num_alus_per_stage
+        self.num_fields_in_prog  = num_fields_in_prog
+        self.num_phv_containers  = num_phv_containers
         self.sketch1_holes = sketch1_holes
         self.sketch2_holes = sketch2_holes
 
@@ -40,20 +43,36 @@ class Transform:
         sketch_holes = self.sketch1_holes if sketch_index == 1 else self.sketch2_holes
         return [hole[len(sketch_name)+1:] for hole in sketch_holes]
 
-class LexicalTransform(Transform):
+class LexicalForwardTransform(Transform):
     """ Sketch1 does not have holes for PHV mappings (optimized sketch with
     lexical mappings). Sketch2 does have explicit field to PHV mappings. 
     """
     def __init__(self, sketch1_name, sketch2_name, num_pipeline_stages,
-                 num_alus_per_stage, sketch1_holes, sketch2_holes):
+                 num_alus_per_stage, num_fields_in_prog, num_phv_containers,
+                 sketch1_holes, sketch2_holes):
         super().__init__(sketch1_name, sketch2_name, num_pipeline_stages,
-                         num_alus_per_stage, sketch1_holes, sketch2_holes)
+                         num_alus_per_stage, num_fields_in_prog,
+                         num_phv_containers, sketch1_holes, sketch2_holes)
+        self.set_real_holes = set()
         
-    def manyToOneTransform(self):
+    def build_many_to_one_transform(self):
         # For sketch1 (*without* PHV mappings), construct the appropriate mapping
         # for sketch2 (*with* PHV mappings).
-        # TODO
-        print("Hello, world!")
+        transform_list = list()
+        for i in range(self.num_phv_containers):
+            for j in range(self.num_fields_in_prog):
+                real_hole_name = "phv_config_" + str(i) + "_" + str(j)
+                transform_list.append(self.sketch2_name + "_" + real_hole_name
+                                      + " =  " +
+                                      ("1" if i == j else "0") + ";")
+                self.set_real_holes.add(real_hole_name)
+        return "\n".join(transform_list)
+
+    def get_full_transform(self):
+        phv_transform = self.build_many_to_one_transform()
+        rest_of_the_transform = super().emit_transforms_unset_holes(
+            self.set_real_holes)
+        return phv_transform + "\n" + rest_of_the_transform
 
 if __name__ == "__main__":
     real_hole_names = ["stateless_alu_0_0_mux1_ctrl",
@@ -88,17 +107,20 @@ if __name__ == "__main__":
                        "output_mux_phv_0_1_ctrl",
                        "output_mux_phv_1_0_ctrl",
                        "output_mux_phv_1_1_ctrl",
-                       "phv_config_0_0",
-                       "phv_config_1_0",
                        "salu_config_0_0",
                        "salu_config_1_0"]
     sketch1_holes = ["trial1_" + hole for hole in real_hole_names]
     sketch2_holes = ["trial2_" + hole for hole in real_hole_names]
-    sketch2_holes += ["trial_simple_test_config_x_y"]
-    lt = LexicalTransform("trial1", "trial2", 3, 3, sketch1_holes,
-                          sketch2_holes)
-    print(len(real_hole_names))
-    print(len(lt.get_hole_difference()))
-    set_real_holes = lt._get_real_hole_intersection() - set(
-        ["stateful_operand_mux_0_0_0_ctrl", "salu_config_0_0"])
+    sketch2_holes += ["trial2_phv_config_0_0",
+                      "trial2_phv_config_1_0"]
+    lt = LexicalForwardTransform("trial1", "trial2", 3, 3, 1, 2,
+                                 sketch1_holes, sketch2_holes)
+    print("Total holes in sketch1: " + str(len(real_hole_names)))
+    print("Holes in sketch2 but not sketch1: " + str(len(lt.get_hole_difference())))
+    print("---- many to one transform ----")
+    print(lt.build_many_to_one_transform())
+    print("---- transforms for 'unset' but common holes ----")
+    set_real_holes = lt.set_real_holes
     print(lt.emit_transforms_unset_holes(set_real_holes))
+    print("---- full transform ---")
+    print(lt.get_full_transform())
