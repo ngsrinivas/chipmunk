@@ -12,11 +12,15 @@ class Transform:
         self.sketch1_holes = sketch1_holes
         self.sketch2_holes = sketch2_holes
 
-    def _get_unset_common_holes(self, set_real_holes):
+    def emit_transforms_unset_holes(self, set_real_holes):
         assert isinstance(set_real_holes, set)
-        unset_holes = [self.sketch2_name + "_" + hole for hole in
-                       self._get_real_hole_intersection() - set_real_holes]
-        return unset_holes
+        unset_holes = self._get_unset_common_holes(set_real_holes)
+        return "\n".join([self.sketch2_name + "_" + h + " = " +
+                          self.sketch1_name + "_" + h + ";"
+                          for h in unset_holes])
+
+    def _get_unset_common_holes(self, set_real_holes):
+        return self._get_real_hole_intersection() - set_real_holes
 
     def _get_real_hole_intersection(self):
         return set(self._get_real_hole_names(1)).intersection(
@@ -52,46 +56,49 @@ class LexicalTransform(Transform):
         print("Hello, world!")
 
 if __name__ == "__main__":
-    hole_names = ["trial_simple_stateless_alu_0_0_mux1_ctrl",
-                  "trial_simple_stateless_alu_0_0_mux2_ctrl",
-                  "trial_simple_stateless_alu_0_0_opcode",
-                  "trial_simple_stateless_alu_0_0_immediate",
-                  "trial_simple_stateless_alu_0_0_mode",
-                  "trial_simple_stateless_alu_0_1_mux1_ctrl",
-                  "trial_simple_stateless_alu_0_1_mux2_ctrl",
-                  "trial_simple_stateless_alu_0_1_opcode",
-                  "trial_simple_stateless_alu_0_1_immediate",
-                  "trial_simple_stateless_alu_0_1_mode",
-                  "trial_simple_stateful_alu_0_0_Mux2_0_global",
-                  "trial_simple_stateful_alu_0_0_Opt_0_global",
-                  "trial_simple_stateful_alu_0_0_const_0_global",
-                  "trial_simple_stateless_alu_1_0_mux1_ctrl",
-                  "trial_simple_stateless_alu_1_0_mux2_ctrl",
-                  "trial_simple_stateless_alu_1_0_opcode",
-                  "trial_simple_stateless_alu_1_0_immediate",
-                  "trial_simple_stateless_alu_1_0_mode",
-                  "trial_simple_stateless_alu_1_1_mux1_ctrl",
-                  "trial_simple_stateless_alu_1_1_mux2_ctrl",
-                  "trial_simple_stateless_alu_1_1_opcode",
-                  "trial_simple_stateless_alu_1_1_immediate",
-                  "trial_simple_stateless_alu_1_1_mode",
-                  "trial_simple_stateful_alu_1_0_Mux2_0_global",
-                  "trial_simple_stateful_alu_1_0_Opt_0_global",
-                  "trial_simple_stateful_alu_1_0_const_0_global",
-                  "trial_simple_stateful_operand_mux_0_0_0_ctrl",
-                  "trial_simple_stateful_operand_mux_1_0_0_ctrl",
-                  "trial_simple_output_mux_phv_0_0_ctrl",
-                  "trial_simple_output_mux_phv_0_1_ctrl",
-                  "trial_simple_output_mux_phv_1_0_ctrl",
-                  "trial_simple_output_mux_phv_1_1_ctrl",
-                  "trial_simple_phv_config_0_0",
-                  "trial_simple_phv_config_1_0",
-                  "trial_simple_salu_config_0_0",
-                  "trial_simple_salu_config_1_0"]
-    modified_hole_names = hole_names + ["trial_simple_test_config_x_y"]
-    lt = LexicalTransform("trial_simple", "trial_simple", 3, 3,
-                          hole_names, modified_hole_names)
-    print(len(hole_names))
+    real_hole_names = ["stateless_alu_0_0_mux1_ctrl",
+                       "stateless_alu_0_0_mux2_ctrl",
+                       "stateless_alu_0_0_opcode",
+                       "stateless_alu_0_0_immediate",
+                       "stateless_alu_0_0_mode",
+                       "stateless_alu_0_1_mux1_ctrl",
+                       "stateless_alu_0_1_mux2_ctrl",
+                       "stateless_alu_0_1_opcode",
+                       "stateless_alu_0_1_immediate",
+                       "stateless_alu_0_1_mode",
+                       "stateful_alu_0_0_Mux2_0_global",
+                       "stateful_alu_0_0_Opt_0_global",
+                       "stateful_alu_0_0_const_0_global",
+                       "stateless_alu_1_0_mux1_ctrl",
+                       "stateless_alu_1_0_mux2_ctrl",
+                       "stateless_alu_1_0_opcode",
+                       "stateless_alu_1_0_immediate",
+                       "stateless_alu_1_0_mode",
+                       "stateless_alu_1_1_mux1_ctrl",
+                       "stateless_alu_1_1_mux2_ctrl",
+                       "stateless_alu_1_1_opcode",
+                       "stateless_alu_1_1_immediate",
+                       "stateless_alu_1_1_mode",
+                       "stateful_alu_1_0_Mux2_0_global",
+                       "stateful_alu_1_0_Opt_0_global",
+                       "stateful_alu_1_0_const_0_global",
+                       "stateful_operand_mux_0_0_0_ctrl",
+                       "stateful_operand_mux_1_0_0_ctrl",
+                       "output_mux_phv_0_0_ctrl",
+                       "output_mux_phv_0_1_ctrl",
+                       "output_mux_phv_1_0_ctrl",
+                       "output_mux_phv_1_1_ctrl",
+                       "phv_config_0_0",
+                       "phv_config_1_0",
+                       "salu_config_0_0",
+                       "salu_config_1_0"]
+    sketch1_holes = ["trial1_" + hole for hole in real_hole_names]
+    sketch2_holes = ["trial2_" + hole for hole in real_hole_names]
+    sketch2_holes += ["trial_simple_test_config_x_y"]
+    lt = LexicalTransform("trial1", "trial2", 3, 3, sketch1_holes,
+                          sketch2_holes)
+    print(len(real_hole_names))
     print(len(lt.get_hole_difference()))
-    print(lt._get_unset_common_holes(
-        lt._get_real_hole_intersection() - set(["stateful_operand_mux_0_0_0_ctrl"])))
+    set_real_holes = lt._get_real_hole_intersection() - set(
+        ["stateful_operand_mux_0_0_0_ctrl", "salu_config_0_0"])
+    print(lt.emit_transforms_unset_holes(set_real_holes))
