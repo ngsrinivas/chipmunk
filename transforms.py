@@ -12,9 +12,21 @@ class Transform:
         self.sketch1_holes = sketch1_holes
         self.sketch2_holes = sketch2_holes
 
-    def get_real_hole_intersection(self):
+    def _get_unset_common_holes(self, set_real_holes):
+        assert isinstance(set_real_holes, set)
+        unset_holes = [self.sketch2_name + "_" + hole for hole in
+                       self._get_real_hole_intersection() - set_real_holes]
+        return unset_holes
+
+    def _get_real_hole_intersection(self):
         return set(self._get_real_hole_names(1)).intersection(
             set(self._get_real_hole_names(2)))
+
+    def get_hole_difference(self):
+        """ Return the set of holes that are unique to sketch2. """
+        real_hole_diff = set(self._get_real_hole_names(2)) - set(
+            self._get_real_hole_names(1))
+        return [self.sketch2_name + "_" + hole for hole in real_hole_diff]
 
     def _get_real_hole_names(self, sketch_index):
         """ Return a set of hole names (without the sketch names) given a sketch
@@ -76,8 +88,10 @@ if __name__ == "__main__":
                   "trial_simple_phv_config_1_0",
                   "trial_simple_salu_config_0_0",
                   "trial_simple_salu_config_1_0"]
+    modified_hole_names = hole_names + ["trial_simple_test_config_x_y"]
     lt = LexicalTransform("trial_simple", "trial_simple", 3, 3,
-                          hole_names, hole_names)
+                          hole_names, modified_hole_names)
     print(len(hole_names))
-    print(len(lt.get_real_hole_intersection()))
-    print(lt.get_real_hole_intersection())
+    print(len(lt.get_hole_difference()))
+    print(lt._get_unset_common_holes(
+        lt._get_real_hole_intersection() - set(["stateful_operand_mux_0_0_0_ctrl"])))
