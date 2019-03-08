@@ -43,6 +43,9 @@ class Transform:
         sketch_holes = self.sketch1_holes if sketch_index == 1 else self.sketch2_holes
         return [hole[len(sketch_name)+1:] for hole in sketch_holes]
 
+    def _get_real_hole_name(self, sketch_name, hole):
+        return hole[len(sketch_name)+1:]
+
 class LexicalForwardTransform(Transform):
     """ Sketch1 does not have holes for PHV mappings (optimized sketch with
     lexical mappings). Sketch2 does have explicit field to PHV mappings. 
@@ -86,6 +89,88 @@ class LexicalBackwardTransform(Transform):
                          num_phv_containers, sketch1_holes, sketch2_holes)
         self.set_real_holes = set()
 
+    def _init_perms(self):
+        # Return initialized permission vector
+        perm_init = list()
+        perm_init.append("int[" + str(self.num_fields_in_prog) + "] perm;")
+        for j in range(self.num_fields_in_prog): # for each field
+            for i in range(self.num_fields_in_prog): # for each phv container
+                hole_name = (self.sketch1_name + "_phv_config_" + str(i) +
+                             "_" + str(j))
+                perm =  "if (" + hole_name + " == 1) {\n"
+                perm += "  perm[" + str(j) + "] = " + str(i) + ";\n"
+                perm += "}"
+                perm_init.append(perm)
+        return "\n".join(perm_init)
+
+    def _assign_perm_based_input(self, sketch1_hole, sketch2_hole, indent):
+        # When some ALU input has value r in the original sketch,
+        # the transformed sketch has value:
+        # perm[r] if r < num_fields_in_prog
+        # r, otherwise
+        assign_stmt  = indent + "if (" + sketch1_hole + " < "
+        assign_stmt += str(self.num_fields_in_prog) + ") {\n"
+        assign_stmt += indent + "  " + sketch2_hole + " = perm[" + sketch1_hole
+        assign_stmt += "];\n" + indent + "} else {\n" + indent + "  "
+        assign_stmt += sketch2_hole + " = " + sketch1_hole + ";\n" + indent
+        assign_stmt += "}\n"
+        return assign_stmt
+
+    def _assign_perm_based_output(self, sketch1_hole, sketch2_hole,
+                                  sketch1_alu_index, sketch2_alu_index, indent):
+        # sketch1_alu_index represents the index of the ALU within its stage in
+        # the original sketch. Similarly, sketch2_alu_index.
+        if sketch1_alu_index < self.num_fields_in_prog:
+            # This ALU in the original sketch is writing to a
+            # packet-field-related PHV. Need to determine if sketch2_hole is the
+            # right transformed hole that will process the same inputs as this ALU.
+            assign_stmt  = indent
+            assign_stmt += "if " if sketch2_alu_index == 0 else "else if"
+            assign_stmt += "(perm[" + str(sketch1_alu_index) + "] == "
+            assign_stmt += str(sketch2_alu_index) + ") {\n"
+            assign_stmt += self._assign_perm_based_input(sketch1_hole,
+                                                         sketch2_hole,
+                                                         indent + "  ")
+            assign_stmt += indent + "}\n"
+            return assign_stmt
+        else:
+            # This ALU in the original sketch is writing to a metadata PHV. The
+            # corresponding ALU in the transformed sketch is the same. However,
+            # its inputs must still be mapped using the permutation.
+            if sketch2_alu_index == sketch1_alu_index:
+                return self._assign_perm_based_input(sketch1_hole,
+                                                     sketch2_hole,
+                                                     indent)
+            else:
+                return ""
+
+    def _init_stateless_alus(self):
+        # If stateless alu (i, j) writes to a field (ie: j < num_fields_in_prog)
+        # and stateless_alu_i_j_mux{m}_ctrl has value r,
+        # then set stateless_alu_i_perm[j]_mux{m}_ctrl to value:
+        # perm[r] if r < num_fields_in_prog
+        # r otherwise
+        stateless_alu_assignments = list()
+        for m in [1, 2]: # do separately for each MUX input to the ALUs
+            for i in range(self.num_pipeline_stages):
+                # Do an N*N iteration over all possible ALU to ALU mappings
+                # between the original grid and the transformed grid.
+                for j in range(self.num_alus_per_stage):
+                    for k in range(self.num_alus_per_stage):
+                        sketch1_hole = (self.sketch1_name
+                                        + "_stateless_alu_" + str(i) + "_" +
+                                        str(j) + "_mux" + str(m) + "_ctrl")
+                        sketch2_hole = (self.sketch2_name
+                                        + "_stateless_alu_" + str(i) + "_" +
+                                        str(k) + "_mux" + str(m) + "_ctrl")
+                        assign_stmt = self._assign_perm_based_output(sketch1_hole,
+                                                                     sketch2_hole,
+                                                                     j, k, "")
+                        stateless_alu_assignments.append(assign_stmt)
+                        self.set_real_holes.add(self._get_real_hole_name(
+                            self.sketch2_name, sketch2_hole))
+        return "\n".join(stateless_alu_assignments)
+
     def build_one_to_many_transform(self):
         # For sketch1 (*with* PHV mappings), construct the appropriate
         # mapping for sketch2 (*without* PHV mappings).
@@ -93,42 +178,19 @@ class LexicalBackwardTransform(Transform):
         # occurrences of phv_j (input or output) must be replaced by phv_i.
         # We do this by learning a permutation j --> i from the given PHV
         # mappings.
-        transform_list = list()
-        # (0) Set up the permutation array from fields to PHVs
-        transform_list.append("int[" + str(self.num_fields_in_prog) + "] perm;")
-        for j in range(self.num_fields_in_prog):
-            for i in range(self.num_phv_containers):
-                hole_name = (self.sketch1_name + "_phv_config_" + str(i) +
-                             "_" + str(j))
-                perm =  "if (" + hole_name + " == 1) {\n"
-                perm += "  perm[" + str(j) + "] = " + str(i) + ";\n"
-                perm += "}"
-                transform_list.append(perm)
         # TODO: Is perm[x] always set for all field indices x?
-        # (1) If input stateless_alu_p_q_mux{1|2}_ctrl has value r, then must set
-        # stateless_alu_p_perm[q]_mux{1|2}_ctrl to have value perm[r].
-        for i in range(self.num_pipeline_stages):
-            for j in range(self.num_alus_per_stage):
-                for q in [1, 2]:
-                    sketch1_real_hole = ("stateless_alu_" + str(i) + "_" +
-                                         str(j) + "_mux" + str(q) + "_ctrl")
-                    sketch1_hole = (self.sketch1_name + "_" + sketch1_real_hole)
-                    for r in range(self.num_fields_in_prog):
-                        sketch2_real_hole = ("stateless_alu_" + str(i) + "_" +
-                                             str(r) + "_mux" + str(q) + "_ctrl")
-                        sketch2_hole = (self.sketch2_name + "_" +
-                                        sketch2_real_hole)
-                        perm = "if " if r == 0 else "else if "
-                        perm += "(perm[" + str(j) + "] == " + str(r) + ") {\n"
-                        perm += sketch2_hole + " = perm[" + sketch1_hole + "];\n} "
-                        transform_list.append(perm)
-                    self.set_real_holes.add(self.sketch2_name + "_" +
-                                            sketch1_real_hole)
-        return "\n".join(transform_list)
+        assert self.num_fields_in_prog <= self.num_phv_containers
+        perm_init = self._init_perms()
+        stateless_alus = self._init_stateless_alus()
+        print("*********")
+        print(perm_init)
+        print(stateless_alus)
+        print("*********")
         # (2) If stateful_operand_mux_p_t_s has value r, then must set
         # stateful_operand_mux_p_t_perm[s] to have value perm[r].
         # (3) If output_mux_phv_p_q_ctrl has value r, then must set
         # output_mux_phv_p_perm[q]_ctrl has value perm[r].
+        return "\n".join([perm_init, stateless_alus])
 
     def get_full_transform(self):
         phv_transform = self.build_one_to_many_transform()
@@ -174,8 +236,12 @@ if __name__ == "__main__":
     sketch1_holes = ["trial1_" + hole for hole in real_hole_names]
     sketch2_holes = ["trial2_" + hole for hole in real_hole_names]
     sketch2_holes += ["trial2_phv_config_0_0",
-                      "trial2_phv_config_1_0"]
-    lft = LexicalForwardTransform("trial1", "trial2", 3, 3, 1, 2,
+                      "trial2_phv_config_1_0",
+                      "trial2_phv_config_2_0",
+                      "trial2_phv_config_0_1",
+                      "trial2_phv_config_1_1",
+                      "trial2_phv_config_2_1"]
+    lft = LexicalForwardTransform("trial1", "trial2", 3, 3, 2, 3,
                                  sketch1_holes, sketch2_holes)
     print("Total holes in sketch1: " + str(len(real_hole_names)))
     print("Holes in sketch2 but not sketch1: " + str(len(lft.get_hole_difference())))
@@ -187,7 +253,7 @@ if __name__ == "__main__":
     print("---- full transform ---")
     print(lft.get_full_transform())
     print("---- one to many transform ----")
-    lbt = LexicalBackwardTransform("trial2", "trial1", 3, 3, 1, 2,
+    lbt = LexicalBackwardTransform("trial2", "trial1", 3, 3, 2, 3,
                                    sketch2_holes, sketch1_holes)
     print(lbt.build_one_to_many_transform())
     print("---- transforms for 'unset' but common holes ----")
