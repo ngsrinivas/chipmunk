@@ -210,7 +210,7 @@ class SketchGenerator:
             for i in range(self.num_phv_containers_):
                 assert_predicate += self.sketch_name_ + "_phv_config_" + str(
                     i) + "_" + str(j) +  " + "
-            assert_predicate += "0) <= 1"
+            assert_predicate += "0) == 1"
             self.add_assert(assert_predicate)
         in_ret  = ""
         out_ret = ""
