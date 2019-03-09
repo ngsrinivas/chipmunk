@@ -7,10 +7,6 @@ import pickle
 import subprocess
 
 
-# Read contents of file_name into a string
-def file_to_str(file_name):
-    return Path(file_name).read_text()
-
 def usage():
     print("Usage: python3 " + sys.argv[0] +
           " sketch1_name sketch2_name transform_name" +
