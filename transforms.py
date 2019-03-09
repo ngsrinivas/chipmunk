@@ -1,5 +1,10 @@
 """ Transform for the lexical mapping optimization """
 
+import sys
+import pickle
+from chipmunk_pickle import ChipmunkPickle
+from sketch_generator import Hole
+
 class Transform:
     """ Base class defining a transformation from the holes of sketch1 to
     sketch2. """
@@ -41,10 +46,16 @@ class Transform:
         assert sketch_index in [1, 2]
         sketch_name  = self.sketch1_name  if sketch_index == 1 else self.sketch2_name
         sketch_holes = self.sketch1_holes if sketch_index == 1 else self.sketch2_holes
-        return [hole[len(sketch_name)+1:] for hole in sketch_holes]
+        return [self._get_real_hole_name(sketch_name, hole) for hole in sketch_holes]
 
     def _get_real_hole_name(self, sketch_name, hole):
-        return hole[len(sketch_name)+1:]
+        if isinstance(hole, Hole):
+            return hole.name[len(sketch_name) + 1:]
+        elif instance(hole, str):
+            return hole[len(sketch_name)+1:]
+        else:
+            print("Unknown hole type")
+            assert(False)
 
 class LexicalForwardTransform(Transform):
     """ Sketch1 does not have holes for PHV mappings (optimized sketch with
@@ -198,7 +209,7 @@ class LexicalBackwardTransform(Transform):
             self.set_real_holes)
         return phv_transform + "\n" + rest_of_the_transform
 
-if __name__ == "__main__":
+def sample_unit_test():
     real_hole_names = ["stateless_alu_0_0_mux1_ctrl",
                        "stateless_alu_0_0_mux2_ctrl",
                        "stateless_alu_0_0_opcode",
@@ -261,3 +272,38 @@ if __name__ == "__main__":
     print(lbt.emit_transforms_unset_holes(set_real_holes))
     print("---- full transform ---")
     print(lbt.get_full_transform())
+
+def usage():
+    print("Usage: python3 " + argv[0] + " " +
+          "<original_sketch_name> <transformed_sketch_name> " +
+          "<transform_name> <number of pipeline stages> " +
+          "<number of stateless/stateful ALUs per stage> " +
+          "<number of fields in prog>")
+    print("transform_name: lexical_forward | lexical_backward")
+    exit(1)
+
+if __name__ == "__main__":
+    argv = sys.argv
+    if len(argv) < 7:
+        usage()
+    sketch1_name = argv[1]
+    sketch2_name = argv[2]
+    transform = argv[3]
+    num_pipeline_stages = int(argv[4])
+    num_alus_per_stage = int(argv[5])
+    num_fields_in_prog = int(argv[6])
+    num_phv_containers = num_alus_per_stage
+
+    transform_class_map = {"lexical_forward": LexicalForwardTransform,
+                           "lexical_backward": LexicalBackwardTransform}
+    if not transform in transform_class_map.keys():
+        usage()
+
+    transform_class = transform_class_map[transform]
+    sketch1_holes=pickle.load(open(sketch1_name + ".pickle", "rb")).holes_
+    sketch2_holes=pickle.load(open(sketch2_name + ".pickle", "rb")).holes_
+
+    t = transform_class(sketch1_name, sketch2_name, num_pipeline_stages,
+                        num_alus_per_stage, num_fields_in_prog, num_phv_containers,
+                        sketch1_holes, sketch2_holes)
+    print(t.get_full_transform())

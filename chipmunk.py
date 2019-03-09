@@ -7,12 +7,12 @@ from compiler import Compiler
 
 def main(argv):
     """Main program."""
-    if len(argv) < 8:
+    if len(argv) < 9:
         print("Usage: python3 " + argv[0] +
               " <program file> <alu file> <number of pipeline stages> " +
               "<number of stateless/stateful ALUs per stage> " +
               "<codegen/optverify> <sketch_name (w/o file extension)> " +
-              "<parallel/serial>")
+              "<parallel/serial> <lex_opt_enabled (yes|no)>")
         exit(1)
 
     program_file = str(argv[1])
@@ -25,7 +25,8 @@ def main(argv):
     parallel_or_serial = str(argv[7])
     assert parallel_or_serial in ["parallel", "serial"]
     #TODO: add lex_opt_enabled top-level option
-    lex_opt_enabled = "no"
+    lex_opt_enabled = str(argv[8])
+    assert lex_opt_enabled in ["yes", "no"]
 
     compiler = Compiler(program_file, alu_file, num_pipeline_stages,
                         num_alus_per_stage, sketch_name, parallel_or_serial,
