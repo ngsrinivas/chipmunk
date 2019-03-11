@@ -10,11 +10,12 @@ import subprocess
 def usage():
     print("Usage: python3 " + sys.argv[0] +
           " sketch1_name sketch2_name transform_name" +
-          " num_pipeline_stages num_alus_per_stage")
+          " num_pipeline_stages num_alus_per_stage" +
+          " num_operands_to_stateful_alu")
     print("transform_name: lexical_forward | lexical_backward")
     sys.exit(1)
 
-if len(sys.argv) < 6:
+if len(sys.argv) < 7:
     usage()
 else:
     sketch1_name = str(sys.argv[1])
@@ -27,6 +28,8 @@ else:
     num_pipeline_stages = int(sys.argv[4])
     num_alus_per_stage = int(sys.argv[5])
     num_phv_containers = num_alus_per_stage
+    num_state_groups = num_alus_per_stage
+    num_operands_to_stateful_alu = int(sys.argv[6])
     env = Environment(
         loader=FileSystemLoader('./templates'), undefined=StrictUndefined)
     assert (pickle.load(open(
@@ -47,7 +50,8 @@ else:
     tf_class = transform_class_map[transform]
     tf = tf_class(sketch1_name, sketch2_name,
                   num_pipeline_stages, num_alus_per_stage, num_fields_in_prog,
-                  num_phv_containers, sketch1_holes, sketch2_holes)
+                  num_phv_containers, sketch1_holes, sketch2_holes,
+                  num_state_groups, num_operands_to_stateful_alu)
     transform_function = tf.get_full_transform()
     opt_verifier = opt_verify_template.render(
         sketch1_name=sketch1_name,
